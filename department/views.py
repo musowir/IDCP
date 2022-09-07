@@ -4,11 +4,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+
+from department.models import CourseInfo, DepProfileInfo
 def index(request):
     return render(request,'department/index.html')
 
 def welcome(request):
-    return render(request,'department/welcome.html')
+    deps=DepProfileInfo.objects.all()
+    courses = CourseInfo.objects.all()
+    return render(request,'department/welcome.html', context={'deps':deps, 'courses':courses})
     
 @login_required
 def special(request):

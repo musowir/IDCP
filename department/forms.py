@@ -15,4 +15,4 @@ class DepProfileInfoForm(forms.ModelForm):
 class CourseAddForm(forms.ModelForm):
     class Meta():
         model = CourseInfo
-        fields = ('couse_code', 'couse_name', 'department', 'start_date', 'slot','hours_per_week', 'no_of_seats', 'syllabus')
+        fields = ('course_code', 'course_name', 'department', 'start_date', 'slot','hours_per_week', 'no_of_seats', 'syllabus')

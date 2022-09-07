@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from department.forms import UserForm,UserProfileInfoForm
+from department.forms import DepForm,DepProfileInfoForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -21,8 +21,8 @@ def user_logout(request):
 def register(request):
     registered = False
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileInfoForm(data=request.POST)
+        user_form = DepForm(data=request.POST)
+        profile_form = DepProfileInfoForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
@@ -37,8 +37,8 @@ def register(request):
         else:
             print(user_form.errors,profile_form.errors)
     else:
-        user_form = UserForm()
-        profile_form = UserProfileInfoForm()
+        user_form = DepForm()
+        profile_form = DepProfileInfoForm()
     return render(request,'department/registration.html',
                           {'user_form':user_form,
                            'profile_form':profile_form,

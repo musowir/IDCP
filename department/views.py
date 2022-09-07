@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from department.forms import DepForm,DepProfileInfoForm
+from department.forms import DepForm,DepProfileInfoForm, CourseAddForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -60,3 +60,22 @@ def user_login(request):
             return HttpResponse("Invalid login details given")
     else:
         return render(request, 'department/login.html', {})
+
+def courseAdd(request):
+    registered = False
+    if request.method == 'POST':
+        course_form = CourseAddForm(data=request.POST)
+        if course_form.is_valid():
+            
+            course = course_form.save(commit=False)
+            
+            course.save()
+            registered = True
+        else:
+            print(course_form.errors)
+    else:
+        course_form = CourseAddForm()
+    return render(request,'department/courseadd.html',
+                          {
+                           'course_form':course_form,
+                           'registered':registered})

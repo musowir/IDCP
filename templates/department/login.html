@@ -1,0 +1,65 @@
+{% extends 'department/base.html' %}
+{% block body_block %}
+<!-- <nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <ul class="nav navbar-nav">
+{# Django Home Link / Admin Link / Register Link#}
+      <li><a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a></li>
+      <li><a class="navbar-link" href="#">Student Login</a></li>     
+      {# Some logic on what to display for last item#}
+       {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+        <li><a class="navbar-link" href="{% url 'department:user_login' %}">Department Login</a></li>
+      {% endif %} 
+</ul>
+  </div>
+</nav>-->
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon navbar-light"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li><a class="navbar-link  text-dark" href="#">Student Login</a></li>&nbsp;&nbsp; 
+        {# Some logic on what to display for last item#}
+        <!-- {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+          <li><a class="navbar-link  text-dark" href="{% url 'department:user_login' %}">Department Login</a></li>
+        {% endif %} -->
+    </ul>
+  </div>
+</nav>
+<div class="container">
+<div class="jumbotron" style="background-image: url('../../static/campus.png');background-repeat: no-repeat;background-size: cover;">
+  <h2><B>Interdisciplinary Course Portal</B></h2>
+  <h4>Cochin University of Science and Technology</h4>
+  {% if user.is_authenticated %}
+      <h5>Hello {{ user.username }}</h5>
+  
+
+  {% endif %}
+</div>
+
+  <div class="container">
+    <br>
+    <div class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 10px;"><br>
+      <h3>Login</h3>
+      <br>
+  <form method="post" action="{% url 'department:user_login' %}">
+          {% csrf_token %}
+          {# A more "HTML" way of creating the login form#}
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username"><br>
+<label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><br><br>
+<input type="submit" name="" value="Login">&nbsp;
+New user?&nbsp;&nbsp;<a href="{% url 'department:register' %}">Register</a><br><br>
+</form>
+  </div>
+</div>
+{% endblock %}
+
+

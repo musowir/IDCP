@@ -19,13 +19,17 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from django.urls import re_path as url
-from department import views
+from department import views as dv
+from student import views as sv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$',views.welcome,name='welcome'),
-    url(r'^department/$',views.index,name='index'),
+    url(r'^$',dv.welcome,name='welcome'),
+    url(r'^department/$',dv.index,name='index'),
+    url(r'^student/$',sv.index,name='s_index'),
     #url(r'^special/',views.special,name='special'),
     url(r'^department/',include('department.urls')),
-    url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^student/',include('student.urls')),
+    url(r'^logout/$', dv.user_logout, name='logout'),
+    url(r'^logout/$', sv.user_logout, name='s_logout'),
 ]

@@ -21,7 +21,7 @@ def special(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('welcome'))
 def register(request):
     registered = False
     if request.method == 'POST':

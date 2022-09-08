@@ -9,7 +9,32 @@
       <li><a class="navbar-link" href="{% url 'department:register' %}">Register</a></li>     
       {# Some logic on what to display for last item#}
       {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Logout</a></li>
+      <li><a href="" class="" data-toggle="modal" data-target="#exampleModalCenter">
+        Logout</a>
+      </li>
+        <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirm Logout</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you want to logout?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
+        <a class="btn btn-secondary" href="{% url 'logout' %}"> Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
       {% else %}
         <li><a class="navbar-link" href="{% url 'department:user_login' %}">Login</a></li>
       {% endif %}

@@ -48,7 +48,7 @@ def student_login(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:
-            if user.is_active:
+            if user.is_active and not user.is_staff:
                 login(request,user)
                 return HttpResponseRedirect(reverse('s_index'))
             else:

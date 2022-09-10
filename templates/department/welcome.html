@@ -46,9 +46,13 @@
         </div>
 
     </div>
-        <div class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 10px;"><br>
-          <h4>Login</h4>
+
+        <div id='dep' class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: block;"><br>
+          <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button>
           <br>
+          <h4>Department Login</h4>
+          
+          
       <form method="post" action="{% url 'department:user_login' %}">
               {% csrf_token %}
               {# A more "HTML" way of creating the login form#}
@@ -62,6 +66,27 @@
     <br><br>
     </form>
     </div>
+
+    <div id='stu' class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: none"><br>
+      <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button>
+      <br>
+      <h4>Student Login</h4>
+      
+      
+  <form method="post" action="{% url 'student:student_login' %}">
+          {% csrf_token %}
+          {# A more "HTML" way of creating the login form#}
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username"><br>
+<label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><br><br>
+<input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
+New user?&nbsp;&nbsp;<a href="{% url 'student:register' %}">Register</a> <br><br>
+<a href="">Forgot password!</a>
+<br><br>
+</form>
+</div>
+
     </div>
    </div>
 
@@ -92,4 +117,5 @@
 <div>
   
 </div>
+<script src="../../static/login.js"></script>
 {% endblock %}

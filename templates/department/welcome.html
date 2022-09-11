@@ -3,7 +3,7 @@
 {% block body_block %}
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white m-3">
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-white m-3"> -->
   <!-- <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a> -->
   <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon navbar-light"></span>
@@ -19,97 +19,132 @@
         {% endif %}
     </ul>
   </div> -->
-</nav>
+<!-- </nav> -->
 
 <div class="container">
-  <div class="jumbotron" style="background-image: url('../../static/campus.png');background-repeat: no-repeat;background-size: cover;">
-    
-    
-    <h2><B>Interdisciplinary Course Portal</B></h2>
-    <h4>Cochin University of Science and Technology</h4>
-    {% if user.is_authenticated %}
-        <h5>Hello {{ user.username }}</h5>
-    
-
-    {% endif %}
-  </div>
+  
   
   <div class="container">
     <div class="row">
-    <div class="col-md-8">
-      <div class="list-group">
-        <button type="button" class="list-group-item list-group-item-action bg-secondary text-white"><u>Notifications</u></button>
-        <button type="button" class="list-group-item list-group-item-action">A third button item</button>
-        <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
-        <button type="button" class="list-group-item list-group-item-action">A second button item</button>
-        <button type="button" class="list-group-item list-group-item-action">A second button item</button>
-        <button type="button" class="list-group-item list-group-item-action">A second button item</button>
+      <div class="col-md-8">
+        <div class="list-group">
+          <button type="button" class="list-group-item list-group-item-action bg-secondary text-white"><u>Notifications</u></button>
+          <button type="button" class="list-group-item list-group-item-action">A third button item</button>
+          <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
+          <button type="button" class="list-group-item list-group-item-action">A second button item</button>
+          <button type="button" class="list-group-item list-group-item-action">A second button item</button>
+          <button type="button" class="list-group-item list-group-item-action">A second button item</button>
         </div>
 
-    </div>
+      </div>
 
-        <div id='dep' class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: block;"><br>
-          <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button>
-          <br>
-          <h4>Department Login</h4>
-          
-          
-      <form method="post" action="{% url 'department:user_login' %}">
-              {% csrf_token %}
-              {# A more "HTML" way of creating the login form#}
-              <label for="username">Username:</label>
-              <input type="text" name="username" placeholder="Username"><br>
-    <label for="password">Password:</label>
-              <input type="password" name="password" placeholder="Password"><br><br>
-    <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
-    New user?&nbsp;&nbsp;<a href="{% url 'department:register' %}">Register</a> <br><br>
-    <a href="">Forgot password!</a>
-    <br><br>
-    </form>
-    </div>
-
-    <div id='stu' class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: none"><br>
-      <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button>
-      <br>
-      <h4>Student Login</h4>
-      
-      
-  <form method="post" action="{% url 'student:student_login' %}">
+      <div id='dep' class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: block;"><br>
+        <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button>
+        <br>
+        <h4>Department Login</h4>
+              
+        <form method="post" action="{% url 'department:user_login' %}">
           {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
           <label for="username">Username:</label>
-          <input type="text" name="username" placeholder="Username"><br>
-<label for="password">Password:</label>
+          <input type="text" name="username" placeholder="Department Username"><br>
+          <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
-<input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
-New user?&nbsp;&nbsp;<a href="{% url 'student:register' %}">Register</a> <br><br>
-<a href="">Forgot password!</a>
-<br><br>
-</form>
-</div>
+          <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
+          New user?&nbsp;&nbsp;<a href="{% url 'department:register' %}">Register</a> <br><br>
+          <a href="">Forgot password!</a>
+          <br><br>
+        </form>
+      </div>
+
+      <div id='stu' class="card col-md-4 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: none"><br>
+        <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button>
+        <br>
+        <h4>Student Login</h4>
+      
+        <form method="post" action="{% url 'student:student_login' %}">
+          {% csrf_token %}
+          {# A more "HTML" way of creating the login form#}
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Student Username"><br>
+          <label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><br><br>
+          <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
+          New user?&nbsp;&nbsp;<a href="{% url 'student:register' %}">Register</a> <br><br>
+          <a href="">Forgot password!</a>
+          <br><br>
+        </form>
+      </div>
 
     </div>
-   </div>
+  </div>
+
+  <br>
+    
+  <div class="bg-light ">
+      
+    <div class="p-2 mb-2 bg-secondary text-white">Couses</div>
+    <div class="container">
+      
+      <div class="accordion" id="accordionExample">
+        
+        {% for rec in r %}
+
+        <div class="card">
+
+          <div class="card-header" id="h{{ forloop.counter }}">
+            <h2 class="mb-0">
+              <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#c{{ forloop.counter }}" aria-expanded="true" aria-controls="">
+                {{rec.dep}}
+              </button>
+            </h2>
+          </div>
+      
+          <div id="c{{ forloop.counter }}" class="collapse" aria-labelledby="#h{{ forloop.counter }}" data-parent="#accordionExample">
+            <div class="card-body">
+              <div class="row">
+                {% for c in rec.cor %}    
+                <div class="card col-md-5  m-2 p-2 bg-light border rounded">
+                    <b>{{c.course_code}} - {{c.course_name}}</b>
+                    <small>
+                    Start date: {{c.start_date}} &nbsp; | &nbsp;
+                    No of seats: {{c.no_of_seats}} </small>
+                    <a href="#" class="card-link">Details</a>
+                </div>
+                {% empty %}
+                <p class="pl-5">No courses available.. </p>
+                {% endfor %}
+              </div>
+  
+            </div>  
+          </div>
+
+        </div>
+          {% endfor %}
+      </div>
 
     <br>
-    <div class="bg-light ">
+    </div>
+  </div>
+
+  <!-- <div class="bg-light ">
     <div class="p-3 mb-2 bg-secondary text-white">Couses</div>
     <div class="container">
     {% for rec in r %} <br>
-      <h6><u>{{rec.dep}}</u></h6>
+      <h6>{{rec.dep}}</h6>
           <div class="row container">
           {% for c in rec.cor %}    
           <div class="card col-md-5 m-1 p-2">
-            <!-- <div class="card-title">  -->
+            <!-- <div class="card-title"> 
               <b>{{c.course_code}} - {{c.course_name}}</b>
             <!-- </div> -->
             <!-- <div class="card-subtitle mb-2 text-muted">{{c.department}} </div> -->
-            <!-- <p class="card-text"> -->
+            <!-- <p class="card-text"> 
               <small>
               Start date: {{c.start_date}} &nbsp; | &nbsp;
               No of seats: {{c.no_of_seats}} </small>
               <a href="#" class="card-link">Details</a>
-            <!-- </p> -->
+            <!-- </p>
           </div>
           {% empty %}
           <p>No courses available.. </p>
@@ -117,15 +152,9 @@ New user?&nbsp;&nbsp;<a href="{% url 'student:register' %}">Register</a> <br><br
         </div>
         {% endfor %}
         </div>
-      </div>
+      </div> -->
+    
     </div>
-  </div>
 
-  
 </div>
-<hr>
-<div>
-  
-</div>
-
 {% endblock %}

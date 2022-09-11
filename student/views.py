@@ -52,7 +52,7 @@ def student_login(request):
                 login(request,user)
                 return HttpResponseRedirect(reverse('s_index'))
             else:
-                return HttpResponse("Your account was inactive.")
+                return HttpResponse("Your account was inactive or not a student.")
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username,password))

@@ -24,6 +24,6 @@ class CourseInfo(models.Model):
     )
 
     def __str__(self) :
-       return self.couse_name
+       return self.course_name
 
 

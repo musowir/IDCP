@@ -12,7 +12,11 @@ def index(request):
 def welcome(request):
     deps=DepProfileInfo.objects.all()
     courses = CourseInfo.objects.all()
-    return render(request,'department/welcome.html', context={'deps':deps, 'courses':courses})
+    r=[]
+    for d in deps:
+        c = CourseInfo.objects.filter(department=d.id)
+        r.append({'dep':d, 'cor':c})
+    return render(request,'department/welcome.html', context={'r':r })
     
 @login_required
 def special(request):

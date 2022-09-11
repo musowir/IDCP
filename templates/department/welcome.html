@@ -2,9 +2,10 @@
 
 {% block body_block %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
-  <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white m-3">
+  <!-- <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a> -->
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon navbar-light"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
@@ -17,7 +18,7 @@
           <li><a class="navbar-link  text-dark" href="{% url 'department:user_login' %}">Department Login</a></li>
         {% endif %}
     </ul>
-  </div>
+  </div> -->
 </nav>
 
 <div class="container">
@@ -91,31 +92,40 @@ New user?&nbsp;&nbsp;<a href="{% url 'student:register' %}">Register</a> <br><br
    </div>
 
     <br>
-    <h5>Couses</h5>
-    
-          <div class="row">
-                      
-            {% for cor in courses %}
-          
-          <div class="card col-md-3 m-1 p-2">
-            <br>
-            <div class="card-title"> <b>{{cor.course_code}} - {{cor.course_name}}</b></div>
-            <div class="card-subtitle mb-2 text-muted">{{cor.department}} </div>
-            <p class="card-text">
-              Start date: {{cor.start_date}} <br>
-              No of seats: {{cor.no_of_seats}}</p>
+    <div class="bg-light ">
+    <div class="p-3 mb-2 bg-secondary text-white">Couses</div>
+    <div class="container">
+    {% for rec in r %} <br>
+      <h6><u>{{rec.dep}}</u></h6>
+          <div class="row container">
+          {% for c in rec.cor %}    
+          <div class="card col-md-5 m-1 p-2">
+            <!-- <div class="card-title">  -->
+              <b>{{c.course_code}} - {{c.course_name}}</b>
+            <!-- </div> -->
+            <!-- <div class="card-subtitle mb-2 text-muted">{{c.department}} </div> -->
+            <!-- <p class="card-text"> -->
+              <small>
+              Start date: {{c.start_date}} &nbsp; | &nbsp;
+              No of seats: {{c.no_of_seats}} </small>
               <a href="#" class="card-link">Details</a>
+            <!-- </p> -->
           </div>
+          {% empty %}
+          <p>No courses available.. </p>
           {% endfor %}
         </div>
-        
+        {% endfor %}
         </div>
+      </div>
     </div>
+  </div>
 
   
 </div>
+<hr>
 <div>
   
 </div>
-<script src="../../static/login.js"></script>
+
 {% endblock %}

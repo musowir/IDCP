@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
+import department
 from department.forms import DepForm,DepProfileInfoForm, CourseAddForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -6,12 +7,17 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from department.models import CourseInfo, DepProfileInfo
+
+#@login_required(login_url='/')
 def index(request):
-    return render(request,'department/index.html')
+    if request.user.is_authenticated:
+        depinf = DepProfileInfo.objects.get(user=request.user)
+        cour = CourseInfo.objects.filter(department=depinf)
+        return render(request,'department/index.html', {'depinf':depinf, 'cour': cour})
+
 
 def welcome(request):
     deps=DepProfileInfo.objects.all()
-    courses = CourseInfo.objects.all()
     r=[]
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)
@@ -26,6 +32,7 @@ def special(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('welcome'))
+
 def register(request):
     registered = False
     if request.method == 'POST':
@@ -52,6 +59,7 @@ def register(request):
                           {'user_form':user_form,
                            'profile_form':profile_form,
                            'registered':registered})
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')

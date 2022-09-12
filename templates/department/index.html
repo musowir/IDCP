@@ -1,20 +1,62 @@
 {% extends "department/base.html" %}
 
 {% block body_block %}
-<nav class="navbar navbar-default navbar-static-top">
-  <div class="container">
-    <ul class="nav navbar-nav">
-{# Django Home Link / Admin Link / Register Link#}
-      <li><a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a></li>
-      <li><a class="navbar-link" href="{% url 'department:register' %}">Register</a></li>     
-      {# Some logic on what to display for last item#}
-      {% if user.is_authenticated %}
-      <li><a href="" class="" data-toggle="modal" data-target="#exampleModalCenter">
-        Logout</a>
-      </li>
-        <!-- Button trigger modal -->
+{% if user.is_authenticated %}
+<div class="container bg-light p-3">
+  <div class="row">
+    <div class="col-3">
+      
+      <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action list-group-item-secondary active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Edit Profile</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Courses</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary"  data-toggle="modal" data-target="#exampleModalCenter" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Logout</a>
+        
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+            <div class="container">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ depinf.department_name}}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{depinf.user}}</h6>
+                  <p class="card-text">{{depinf.bio}}</p>
+                  <a href="{{depinf.website}}" class="text-secondary">{{depinf.website}}</a> | <a href="tel:+{{depinf.phone}}" class="text-secondary">{{depinf.phone}}</a>
+                </div>
+              </div>
+            </div>
 
-<!-- Modal -->
+
+        </div>
+        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+
+          <div class="container">
+            <div class="row">
+              {% for c in cour %}    
+                <div class="card col-md-5  m-2 p-2 bg-light border rounded">
+                    <b>{{c.course_code}} - {{c.course_name}}</b>
+                    <small>
+                    Start date: {{c.start_date}} &nbsp; | &nbsp;
+                    No of seats: {{c.no_of_seats}} </small>
+                    <a href="#" class="card-link">Details</a>
+                </div>
+                {% empty %}
+                <p class="pl-5">No courses available.. </p>
+                {% endfor %}
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -28,30 +70,22 @@
         Do you want to logout?
       </div>
       <div class="modal-footer">
+        {% if user.is_authenticated %}
         <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
         <a class="btn btn-secondary" href="{% url 'logout' %}"> Confirm</a>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
 
-      {% else %}
-        <li><a class="navbar-link" href="{% url 'department:user_login' %}">Login</a></li>
-      {% endif %}
-</ul>
-  </div>
-</nav>
-<div class="container">
-  <div class="jumbotron">
-    <h2><B>Interdisciplinary Course Portal</B></h2>
-    <h4>Cochin University of Science and Technology</h4>
-    {% if user.is_authenticated %}
-        <h5>Hello {{ user.username }}</h5>
-    {% else %}
-        <h5>Register or Login if you'd like to</h5>
-    {% endif %}
-  </div>
+{% else %}
 
-  
+<div class="container">
+  <div class="alert alert-warning" role="alert">
+    Session Expired! <a href="{% url 'welcome' %}">Login again</a>
+  </div>
 </div>
+{% endif %}
+
 {% endblock %}

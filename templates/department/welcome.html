@@ -44,7 +44,7 @@
         <h4>Department Login</h4>
               
         <form method="post" action="{% url 'department:user_login' %}">
-          {% csrf_token %}
+        {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
           <label for="username">Username:</label>
           <input type="text" name="username" placeholder="Department Username"><br>
@@ -63,7 +63,7 @@
         <h4>Student Login</h4>
       
         <form method="post" action="{% url 'student:student_login' %}">
-          {% csrf_token %}
+        {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
           <label for="username">Username:</label>
           <input type="text" name="username" placeholder="Student Username"><br>

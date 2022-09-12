@@ -1,3 +1,11 @@
+/* index list related */
+.list-group-item[aria-expanded="true"]{
+  background-color: black !important;
+border-color: #aed248;
+
+}
+
+/* footer */
 .footer-clean {
     padding:50px 0;
     background-color:#fff;

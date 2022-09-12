@@ -41,7 +41,7 @@ def register(request):
     return render(request,'student/registration.html',
                           {'s_user_form':s_user_form,
                            's_profile_form':s_profile_form,
-                           'registered':registered})
+                           'registered':registered})                        
 def student_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')

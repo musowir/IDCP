@@ -10,10 +10,23 @@ from department.models import CourseInfo, DepProfileInfo
 
 #@login_required(login_url='/')
 def index(request):
+    registered = False
+    if request.method == 'POST':
+        course_form = CourseAddForm(data=request.POST)
+        if course_form.is_valid():
+            
+            course = course_form.save(commit=False)
+            
+            course.save()
+            registered = True
+        else:
+            print(course_form.errors)
+    else:
+        course_form = CourseAddForm()
     if request.user.is_authenticated:
         depinf = DepProfileInfo.objects.get(user=request.user)
         cour = CourseInfo.objects.filter(department=depinf)
-        return render(request,'department/index.html', {'depinf':depinf, 'cour': cour})
+        return render(request,'department/index.html', {'depinf':depinf, 'cour': cour, 'course_form':course_form})
 
 
 def welcome(request):

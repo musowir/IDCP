@@ -49,7 +49,7 @@ def index(request):
 def welcome(request):
     deps=DepProfileInfo.objects.all()
     nots4 = Notification.objects.all().order_by('-id')[:4]
-    nots = Notification.objects.all()[4:]
+    nots = Notification.objects.all().order_by('-id')[4:]
     r=[]
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)

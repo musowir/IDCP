@@ -12,6 +12,7 @@
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-student-list" data-toggle="list" href="#list-student" role="tab" aria-controls="student"><i class="bi bi-people-fill"></i>&nbsp; Students</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-layers-fill"></i>&nbsp; Courses</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-application-list" data-toggle="list" href="#list-application" role="tab" aria-controls="applications"><i class="bi bi-file-earmark-person-fill"></i>&nbsp; Applications</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-notification-list" data-toggle="list" href="#list-notification" role="tab" aria-controls="notification"><i class="bi bi-bell-fill"></i>&nbsp; Notifications</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary"  data-toggle="modal" data-target="#logoutModalCenter" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"><i class="bi bi-x-square-fill"></i>&nbsp; Logout</a>
         
       </div>
@@ -89,6 +90,49 @@
         </div>
         <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">approve students</div>
         <div class="tab-pane fade" id="list-application" role="tabpanel" aria-labelledby="list-application-list">approve application</div>
+        <div class="tab-pane fade" id="list-notification" role="tabpanel" aria-labelledby="list-notification-list">
+          
+          <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#staticBackdropnot">
+            <i class="bi bi-plus-circle-fill text-white"></i>&nbsp; Add new notification
+          </button><br><br>
+          
+
+          <!-- Modal add course-->
+          <div class="modal fade" id="staticBackdropnot" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Add new notification</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                
+                <div class="modal-body">
+                  <form enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    {{ nots_form }}
+                    <input type="submit" name="" value="Register">
+                  </form>
+
+                </div>
+              
+              </div>
+            </div>
+          </div>
+
+
+          {% for n4 in notsin %}
+          <div class="list-group-item list-group-item-action">
+            <div class="row">
+            <div class="col-sm-10">{{ n4.notification }}
+            </div>
+            <div class="col-sm-2">
+              <small>{{ n4.publish_date }}</small></div>
+          </div>
+          </div>
+          {% endfor %}
+        </div>
         <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
       </div>
     </div>

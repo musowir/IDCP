@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 import department
-from department.forms import DepForm,DepProfileInfoForm, CourseAddForm
+from department.forms import DepForm,DepProfileInfoForm, CourseAddForm, NotForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -24,10 +24,25 @@ def index(request):
             print(course_form.errors)
     else:
         course_form = CourseAddForm()
+
+    if request.method == 'POST':
+        nots_form = NotForm(data=request.POST)
+        if nots_form.is_valid():
+            
+            nots = nots_form.save(commit=False)
+            
+            nots.save()
+            registered = True
+        else:
+            print(nots_form.errors)
+    else:
+        nots_form = NotForm()
+    
     if request.user.is_authenticated:
         depinf = DepProfileInfo.objects.get(user=request.user)
         cour = CourseInfo.objects.filter(department=depinf)
-        return render(request,'department/index.html', {'depinf':depinf, 'cour': cour, 'course_form':course_form})
+        notsin = Notification.objects.filter(department=depinf)
+        return render(request,'department/index.html', {'depinf':depinf,'notsin':notsin, 'cour': cour, 'course_form':course_form, 'nots_form': nots_form})
 
 
 

@@ -51,7 +51,43 @@
           <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
           <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
-          New user?&nbsp;&nbsp;<a href="{% url 'department:register' %}">Register</a> <br><br>
+          New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop">Register</a> <br><br>
+          
+
+          <!-- Modal register dep-->
+          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Department Registration</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                
+                <div class="modal-body">
+                  
+                  {% if registered %}
+                  <h1>Thank you for registering!</h1>
+                {% else %}
+                  <form enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    {{ profile_form.as_p }}
+                    <input type="submit" name="" value="Register">
+                  </form>
+      
+                  {% endif %}
+
+                </div>
+              
+              </div>
+            </div>
+          </div>
+
+          
+          
+          
           <a href="">Forgot password!</a>
           <br><br>
         </form>
@@ -70,7 +106,40 @@
           <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
           <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
-          New user?&nbsp;&nbsp;<a href="{% url 'student:register' %}">Register</a> <br><br>
+          New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop2">Register</a> <br><br>
+          
+
+          <!-- Modal register dep-->
+          <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Student Registration</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                
+                <div class="modal-body">
+                  
+                  {% if registered %}
+                  <h1>Thank you for registering!</h1>
+                {% else %}
+                  <form enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    {{ s_user_form.as_p }}
+                    {{ s_profile_form.as_p }}
+                    <input type="submit" name="" value="Register">
+                  </form>
+      
+                  {% endif %}
+
+                </div>
+              
+              </div>
+            </div>
+          </div>
+
           <a href="">Forgot password!</a>
           <br><br>
         </form>

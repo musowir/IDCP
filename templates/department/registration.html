@@ -2,7 +2,7 @@
 {% load static %}
 {% block body_block %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon navbar-light"></span>
@@ -15,12 +15,12 @@
           <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
           <li><a class="navbar-link  text-dark" href="{% url 'department:user_login' %}">Department Login</a></li>
-        {% endif %} -->
+        {% endif %} 
     </ul>
   </div>
-</nav>
+</nav> -->
 <div class="container">
-<div class="jumbotron" style="background-image: url('../../static/campus.png');background-repeat: no-repeat;background-size: cover;">
+<!-- <div class="jumbotron" style="background-image: url('../../static/campus.png');background-repeat: no-repeat;background-size: cover;">
   <h2><B>Interdisciplinary Course Portal</B></h2>
   <h4>Cochin University of Science and Technology</h4>
   {% if user.is_authenticated %}
@@ -28,7 +28,7 @@
   
 
   {% endif %}
-</div>
+</div> -->
 
   <div class="container">
     <div class="card" style="margin: 0 auto; float: none; margin-bottom: 10px;">

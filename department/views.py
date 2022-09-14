@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from department.models import CourseInfo, DepProfileInfo
+from department.models import CourseInfo, DepProfileInfo, Notification
 from student.forms import StudentForm, StudentProfileInfoForm
 
 #@login_required(login_url='/')
@@ -33,6 +33,7 @@ def index(request):
 
 def welcome(request):
     deps=DepProfileInfo.objects.all()
+    nots = Notification.objects.all().order_by('-id')[:4]
     r=[]
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)
@@ -67,7 +68,7 @@ def welcome(request):
 
         return render(request,'department/welcome.html', context={'r':r, 'user_form':user_form,
                             'profile_form':profile_form,
-                            'registered':registered })
+                            'registered':registered, 'nots': nots })
     else:
         registered = False
         if request.method == 'POST':
@@ -91,7 +92,7 @@ def welcome(request):
             s_profile_form = StudentProfileInfoForm()
         return render(request,'department/welcome.html', context={'r':r, 's_user_form':s_user_form,
                             's_profile_form':s_profile_form,
-                            'registered':registered })
+                            'registered':registered, 'nots': nots })
         # return render(request,'student/registration.html',
         #                     {'s_user_form':s_user_form,
         #                     's_profile_form':s_profile_form,

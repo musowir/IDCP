@@ -26,4 +26,12 @@ class CourseInfo(models.Model):
     def __str__(self) :
        return self.course_name
 
+class Notification(models.Model):
+  notification = models.CharField(max_length=400)
+  department = models.ForeignKey(DepProfileInfo, on_delete=models.CASCADE)
+  publish_date = models.DateField(auto_created=True)
+
+  def __str__(self) :
+    return str(self.publish_date)
+
 

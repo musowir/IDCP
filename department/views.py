@@ -33,7 +33,8 @@ def index(request):
 
 def welcome(request):
     deps=DepProfileInfo.objects.all()
-    nots = Notification.objects.all().order_by('-id')[:4]
+    nots4 = Notification.objects.all().order_by('-id')[:4]
+    nots = Notification.objects.all()[4:]
     r=[]
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)
@@ -68,7 +69,7 @@ def welcome(request):
 
         return render(request,'department/welcome.html', context={'r':r, 'user_form':user_form,
                             'profile_form':profile_form,
-                            'registered':registered, 'nots': nots })
+                            'registered':registered, 'nots': nots, 'nots4':nots4 })
     else:
         registered = False
         if request.method == 'POST':
@@ -92,7 +93,7 @@ def welcome(request):
             s_profile_form = StudentProfileInfoForm()
         return render(request,'department/welcome.html', context={'r':r, 's_user_form':s_user_form,
                             's_profile_form':s_profile_form,
-                            'registered':registered, 'nots': nots })
+                            'registered':registered, 'nots': nots, 'nots4':nots4 })
         # return render(request,'student/registration.html',
         #                     {'s_user_form':s_user_form,
         #                     's_profile_form':s_profile_form,

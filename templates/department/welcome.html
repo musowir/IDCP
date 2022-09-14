@@ -29,17 +29,50 @@
       <div class="col-md-8">
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action bg-secondary text-white"><u>Notifications</u></button>
-          {% for n in nots %}
+          {% for n4 in nots4 %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-10">{{ n.notification }}
+            <div class="col-sm-10">{{ n4.notification }}
             </div>
             <div class="col-sm-2">
-              <small>{{ n.publish_date }}</small></div>
+              <small>{{ n4.publish_date }}</small></div>
           </div>
           </div>
           {% endfor %}
-          <button type="button" class="list-group-item list-group-item-action">previous notifications...</button>
+          <!-- Button trigger modal noti -->
+          <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#staticBackdrop">
+            previous notifications...
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Notifications</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {% for n in nots %}
+                    <div class="list-group-item list-group-item-action">
+                      
+                      {{ n.notification }} <br>
+                        <small>{{n.department}}</small> |
+                     
+                        <small>{{ n.publish_date }}</small>
+                    
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>

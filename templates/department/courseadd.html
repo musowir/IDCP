@@ -2,7 +2,7 @@
 {% load static %}
 {% block body_block %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
+ <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon navbar-light"></span>
@@ -10,12 +10,8 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li><a class="navbar-link  text-dark" href="#">Student Login</a></li>&nbsp;&nbsp; 
-        {# Some logic on what to display for last item#}
-        <!-- {% if user.is_authenticated %}
-          <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-          <li><a class="navbar-link  text-dark" href="{% url 'department:user_login' %}">Department Login</a></li>
-        {% endif %} -->
+        {# Some logic on what to display for last item #}
+        
     </ul>
   </div>
 </nav>

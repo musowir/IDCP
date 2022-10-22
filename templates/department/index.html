@@ -8,7 +8,7 @@
       
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action list-group-item-secondary active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="bi bi-house-fill"></i>&nbsp; Home</a>
-        <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a>
+        <!-- <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a> -->
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-student-list" data-toggle="list" href="#list-student" role="tab" aria-controls="student"><i class="bi bi-people-fill"></i>&nbsp; Students</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-layers-fill"></i>&nbsp; Courses</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-application-list" data-toggle="list" href="#list-application" role="tab" aria-controls="applications"><i class="bi bi-file-earmark-person-fill"></i>&nbsp; Applications</a>
@@ -79,7 +79,35 @@
                     <small>
                     Start date: {{c.start_date}} &nbsp; | &nbsp;
                     No of seats: {{c.no_of_seats}} </small>
-                    <a href="#" class="card-link">Details</a>
+                    <!-- Button trigger modal -->
+                    <a href="" class="card-link" data-toggle="modal" data-target="#h{{ forloop.counter }}">
+                    More...</a>
+
+                    <!-- Course Modal -->
+                    <div class="modal fade" id="h{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">{{c.course_code}} - {{c.course_name}}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Department : {{c.department}} <br>
+                          Start Date : {{c.start_date}} <br>
+                          Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
+                          No of seats : {{c.no_of_seats}} <br>
+                          
+                          <a href="../../static/campus.jpg">Syllabus</a>
+                          {{c.syllabus}}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
                 </div>
                 {% empty %}
                 <p class="pl-5">No courses available.. </p>

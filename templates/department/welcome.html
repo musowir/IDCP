@@ -78,11 +78,10 @@
       </div>
       <div class='col-md-4'>
 
-      <div id='dep' class="card col-md-12 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: block;"><br>
-        <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button>
-        <br>
-        <h4>Department Login</h4>
-              
+      <div id='dep' class="card text-center mt-3" style=" display: none;">
+        <!-- <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button> -->
+        <div class="card-header">Department Login</div>
+        <div class="card-body">
         <form method="post" action="{% url 'department:user_login' %}">
         {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
@@ -95,7 +94,7 @@
         </form>
 
           <!-- Modal register dep-->
-          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+           <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -123,17 +122,17 @@
               
               </div>
             </div>
+
           </div>
-          <a href="">Forgot password!</a>
-          <br><br>
-        
+          <!-- <a href="">Forgot password!</a> -->
+        </div>
       </div>
 
-      <div id='stu' class="card col-md-12 text-center" style="margin: 0 auto; float: none; margin-bottom: 5px; display: none"><br>
-        <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button>
-        <br>
-        <h4>Student Login</h4>
-      
+      <div id='stu' class="card text-center mt-3">
+        <div class='card-header'>Student Login</div>
+        <!-- <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button> -->
+        
+        <div class="card-body">
         <form method="post" action="{% url 'student:student_login' %}">
         {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
@@ -143,9 +142,9 @@
           <input type="password" name="password" placeholder="Password"><br><br>
           <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
           New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop2">Register</a> <br><br>
-          
+        
 
-          <!-- Modal register dep-->
+          <!-- Modal register stu -->
           <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
@@ -156,7 +155,7 @@
                   </button>
                 </div>
                 
-                <div class="modal-body">
+                <div class="modal-body text-left">
                   
                   {% if registered %}
                   <h1>Thank you for registering!</h1>
@@ -176,9 +175,36 @@
             </div>
           </div>
 
-          <a href="">Forgot password!</a>
-          <br><br>
+          <!-- <a href="">Forgot password!</a> -->
         </form>
+        </div>
+      </div>
+
+       <div id='fac' class="card text-center mt-3"  style="display: none;">
+        <div class='card-header'>Faculty Login</div>
+       </div>
+       <div id='staf' class="card text-center mt-3"  style="display: none;">
+        <div class='card-header'>Staff Coordinator Login</div>
+       </div>
+       <div id='adm' class="card text-center mt-3"  style="display: none;">
+        <div class='card-header'>Admin Login</div>
+       </div>
+      <div class="card mt-3">
+        <div class="card-header text-center">
+          <div class="dropdown">
+            <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Other Logins
+            </a>
+          
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <button class="dropdown-item" onclick="stushow()">Student</button>
+              <button class="dropdown-item" onclick="depshow()">Department</button>
+              <button class="dropdown-item" onclick="staffshow()">Staff Coordinator</button>
+              <button class="dropdown-item" onclick="facshow()">Faculty</button>
+              <button class="dropdown-item" onclick="admshow()">Admin</button>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -215,7 +241,6 @@
                     <small>
                     Start date: {{c.start_date}} &nbsp; | &nbsp;
                     No of seats: {{c.no_of_seats}} </small>
-                    <a href="#" class="card-link">Details</a>
                 </div>
                 {% empty %}
                 <p class="pl-5">No courses available.. </p>
@@ -228,7 +253,6 @@
         </div>
           {% endfor %}
       </div>
-
     <br>
     </div>
   </div>
@@ -261,6 +285,5 @@
       </div> -->
     
     </div>
-
 </div>
 {% endblock %}

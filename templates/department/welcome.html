@@ -134,7 +134,7 @@
         
         <div class="card-body">
         <form method="post" action="{% url 'student:student_login' %}">
-        {% csrf_token %}
+          {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
           <label for="username">Username:</label>
           <input type="text" name="username" placeholder="Student Username"><br>
@@ -142,7 +142,7 @@
           <input type="password" name="password" placeholder="Password"><br><br>
           <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
           New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop2">Register</a> <br><br>
-        
+        </form>
 
           <!-- Modal register stu -->
           <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -176,7 +176,7 @@
           </div>
 
           <!-- <a href="">Forgot password!</a> -->
-        </form>
+        
         </div>
       </div>
 

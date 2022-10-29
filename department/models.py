@@ -1,3 +1,5 @@
+from email.policy import default
+from enum import unique
 from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
@@ -34,4 +36,19 @@ class Notification(models.Model):
   def __str__(self) :
     return str(self.publish_date)
 
+class Faculty(models.Model):
+  user = models.OneToOneField(User,on_delete=models.CASCADE)
+  name = models.CharField(max_length=200)
+  department = models.ForeignKey(DepProfileInfo, on_delete=models.CASCADE)
+  isCC = models.BooleanField(default=False)
+
+  def __str__(self) -> str:
+     return self.name
+
+class Teaches(models.Model):
+  faculty = models.OneToOneField(Faculty, on_delete=models.CASCADE)
+  course = models.OneToOneField(CourseInfo, on_delete=models.CASCADE)
+  
+  def __str__(self) -> str:
+     return str(self.faculty)
 

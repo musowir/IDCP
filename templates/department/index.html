@@ -27,10 +27,97 @@
                   <h6 class="card-subtitle mb-2 text-muted">@{{depinf.user}}</h6>
                   <p class="card-text">{{depinf.bio}}</p>
                   <a href="{{depinf.website}}" class="text-secondary">{{depinf.website}}</a> | <a href="tel:+{{depinf.phone}}" class="text-secondary">{{depinf.phone}}</a>
-                </div>
-              </div>
-            </div>
+                </div></div>
+                <br>
+                <div class="card p-2">
+                    <br>
+                  <div class="container">
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#staticBackdropa">
+                      <i class="bi bi-person-plus-fill"></i>&nbsp; Add Staff
+                    </button> &nbsp;
 
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#staticBackdropb">
+                      <i class="bi bi-person-workspace"></i></i>&nbsp; Assign Course
+                    </button>
+                    
+                    <!-- assign course-->
+                    <div class="modal fade" id="staticBackdropb" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Assign Course</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          
+                          <div class="modal-body">
+                            
+                            {% if registered %}
+                            <h1>Thank you for registering!</h1>
+                          {% else %}
+                            <form enctype="multipart/form-data" method="POST">
+                              {% csrf_token %}
+                              {{ tc_form.as_p }}
+                              <input type="submit" name="" value="Register">
+                            </form>
+                
+                            {% endif %}
+        
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+        
+                    <!-- Modal add staff-->
+                    <div class="modal fade" id="staticBackdropa" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Add Staff</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          
+                          <div class="modal-body">
+                            
+                            {% if registered %}
+                            <h1>Thank you for registering!</h1>
+                          {% else %}
+                            <form enctype="multipart/form-data" method="POST">
+                              {% csrf_token %}
+                              {{ f_user_form.as_p }}
+                              {{ f_profile_form.as_p }}
+                              <input type="submit" name="" value="Register">
+                            </form>
+                
+                            {% endif %}
+        
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div> <br>
+                    <ul class="list-group">
+                      {% for stf in staff %}
+                      {% if stf.isCC %}<li class="list-group-item">{{stf.name}}&nbsp;&nbsp;<span class="badge badge-dark">Course Coordinator</span></li>{% endif %}
+                      {% endfor %}
+                      {% for t in teaches %}
+                      {% if t.faculty.isCC %}{% else %}<li class="list-group-item">{{t}}&nbsp;&nbsp;<span class="badge badge-warning">Couese: {{t.course}}</span> </li>{% endif %}
+                      
+                      {% endfor %}
+                      {% for t in f_no_list %}
+                      {% if t.isCC %}{% else %}<li class="list-group-item">{{t}} </li>{% endif %}
+                      
+                      {% endfor %}
+                    </ul>
+                    
+                </div>
+                
+              </div>
 
         </div>
         <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
@@ -116,7 +203,19 @@
           </div>
 
         </div>
-        <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">approve students</div>
+        <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">
+
+          {% for s in student %}
+          <div class="list-group-item list-group-item-action">
+            <div class="row">
+            <div class="col-sm-10">{{ s.exam_reg_no }}
+            </div>
+            <div class="col-sm-2">
+              <small>{{ n4.publish_date }}</small></div>
+          </div>
+          </div>
+          {% endfor %}
+        </div>
         <div class="tab-pane fade" id="list-application" role="tabpanel" aria-labelledby="list-application-list">approve application</div>
         <div class="tab-pane fade" id="list-notification" role="tabpanel" aria-labelledby="list-notification-list">
           

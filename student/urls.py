@@ -6,5 +6,5 @@ app_name = 'student'
 urlpatterns=[
     url('register/',views.register,name='register'),
     url('student_login/',views.student_login,name='student_login'),
-    url('stu/', views.index, name='stu')
+    url('stu/', views.index, name='stu'),
 ]

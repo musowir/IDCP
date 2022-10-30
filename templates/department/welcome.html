@@ -90,11 +90,11 @@
           <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
           <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
-          New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop">Register</a> <br><br>
+          New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdropse">Register</a> <br><br>
         </form>
 
           <!-- Modal register dep-->
-           <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+           <div class="modal fade" id="staticBackdropse" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -110,7 +110,7 @@
                   <h1>Thank you for registering!</h1>
                 {% else %}
                   <form enctype="multipart/form-data" method="POST">
-                    {% csrf_token %}
+                  {% csrf_token %}
                     {{ user_form.as_p }}
                     {{ profile_form.as_p }}
                     <input type="submit" name="" value="Register">
@@ -161,7 +161,7 @@
                   <h1>Thank you for registering!</h1>
                 {% else %}
                   <form enctype="multipart/form-data" method="POST">
-                    {% csrf_token %}
+                  {% csrf_token %}
                     {{ s_user_form.as_p }}
                     {{ s_profile_form.as_p }}
                     <input type="submit" name="" value="Register">

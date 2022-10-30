@@ -120,7 +120,6 @@
               </div>
 
         </div>
-        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
         <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
 
           <div class="container">
@@ -159,63 +158,234 @@
               </div>
             </div>
 
-            <div class="row">
-              {% for c in cour %}    
-                <div class="card col-md-5  m-2 p-2 bg-white border rounded">
-                    <b>{{c.course_code}} - {{c.course_name}}</b>
+            {% for c in cour %}
+            <div class="list-group-item list-group-item-action p-3 m-2">
+              <div class="row">
+              
+                  <div class="col-md-8">  
+                  <b>{{c.course_code}} - {{c.course_name}}</b><br>
                     <small>
                     Start date: {{c.start_date}} &nbsp; | &nbsp;
                     No of seats: {{c.no_of_seats}} </small>
-                    <!-- Button trigger modal -->
+                    <!-- Button trigger modal --> <br>
                     <a href="" class="card-link" data-toggle="modal" data-target="#h{{ forloop.counter }}">
                     More...</a>
+                    </div>
 
-                    <!-- Course Modal -->
-                    <div class="modal fade" id="h{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">{{c.course_code}} - {{c.course_name}}</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          Department : {{c.department}} <br>
-                          Start Date : {{c.start_date}} <br>
-                          Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
-                          No of seats : {{c.no_of_seats}} <br>
-                          
-                          <a href="../../static/campus.jpg">Syllabus</a>
-                          {{c.syllabus}}
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                    
+                    <div class="col-md-2 my-auto">
+                      <button type="button" class="btn btn-sm btn-outline-info">&nbsp; Edit &nbsp;</button>
+                    </div>
+                    <div class="col-md-2 my-auto">
+                      <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cousedel{{ forloop.counter }}">Delete</button>
+                    </div>
+                    
+                    
+
+      
+                  </div>
+                </div>
+
+                <!-- Course Modal -->
+                <div class="modal fade" id="h{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">{{c.course_code}} - {{c.course_name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Department : {{c.department}} <br>
+                        Start Date : {{c.start_date}} <br>
+                        Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
+                        No of seats : {{c.no_of_seats}} <br>
+                        
+                        <a href="../../static/campus.jpg">Syllabus</a>
+                        {{c.syllabus}}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       </div>
                     </div>
+                  </div>
+                  </div>
+                
+                <!--modal delete course -->
+                <div class="modal fade" id="cousedel{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Delete Course</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Delete course {{c.course_name}} ?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'department:delete' c.id %}">Confirm</a>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                  </div>
+
                 {% empty %}
+                
+                <div>
                 <p class="pl-5">No courses available.. </p>
-                {% endfor %}
-            </div>
+              </div>
+              
+
+          {% endfor %}
+
+
           </div>
 
         </div>
-        <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">
 
+        <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">
+          <div class="alert alert-dark" role="alert">
+            Registered Students
+          </div>
+          
           {% for s in student %}
+          {% if not s.approved %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-10">{{ s.exam_reg_no }}
+            <div class="col-sm-8">{{ s.exam_reg_no }} - {{ s.user.first_name }} {{ s.user.last_name }}
             </div>
-            <div class="col-sm-2">
-              <small>{{ n4.publish_date }}</small></div>
+            <div class="col-sm-1">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#stu{{ forloop.counter }}">
+                 Details 
+              </button>
+              </div>
+
+              <div class="col-sm-1">
+                <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#appro{{ forloop.counter }}">Approve</button>
+              </div>
+              &nbsp;&nbsp;
+              <div class="col-sm-1">
+                <button class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#reject{{ forloop.counter }}">Reject</button>
+            </div>
           </div>
-          </div>
-          {% endfor %}
+
+          
         </div>
+
+        <div class="modal fade" id="reject{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Reject {{s.user.first_name}} {{s.user.last_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Confirm deletion of {{s.user.first_name}} {{s.user.last_name}} to the system.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                
+                <a class="btn btn-info btn-sm" href="{% url 'department:reject' s.user.id %}"> Confirm</a>
+              </div>
+            </div>
+          </div>
+          </div>
+        
+        <div class="modal fade" id="appro{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Approve {{s.user.first_name}} {{s.user.last_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Confirm verification of {{s.user.first_name}} {{s.user.last_name}} to the system.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                
+                <a class="btn btn-info btn-sm" href="{% url 'department:approve' s.user.id %}"> Confirm</a>
+              </div>
+            </div>
+          </div>
+          </div>
+
+        <div class="modal fade" id="stu{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{s.user.first_name}} {{s.user.last_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Department : {{s.department}} <br>
+                Course : {{s.course}} <br>
+                Phone : {{s.phone}} &nbsp;&nbsp;&nbsp; Email : {{s.user.email}} <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+          <br>
+          <div class="alert alert-dark" role="alert">
+            Approved Students
+          </div>
+          
+          {% for s in student %}
+          {% if s.approved %}
+          <div class="list-group-item list-group-item-action">
+            <div class="row">
+            <div class="col-sm-10">{{ s.exam_reg_no }} - {{ s.user.first_name }} {{ s.user.last_name }}
+            </div>
+            <div class="col-sm-1">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                &nbsp; Details &nbsp;
+              </button>
+              </div>
+          </div>
+
+          
+        </div>
+        
+        <div class="modal fade" id="stu{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{s.user.first_name}} {{s.user.last_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Department : {{s.department}} <br>
+                Course : {{s.course}} <br>
+                Phone : {{s.phone}} &nbsp;&nbsp;&nbsp; Email : {{s.user.email}} <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+</div>
         <div class="tab-pane fade" id="list-application" role="tabpanel" aria-labelledby="list-application-list">approve application</div>
         <div class="tab-pane fade" id="list-notification" role="tabpanel" aria-labelledby="list-notification-list">
           
@@ -252,12 +422,39 @@
           {% for n4 in notsin %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-10">{{ n4.notification }}
+            <div class="col-sm-8">{{ n4.notification }}
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
               <small>{{ n4.publish_date }}</small></div>
+          
+              <div class="col-sm-1">
+            <i class="bi bi-trash3-fill" style="color: rgb(170, 16, 16);" data-toggle="modal" data-target="#del_not{{ forloop.counter }}"></i></div>
+
+            
+          </div>
+        </div>
+
+        <!--modal delete notification -->
+        <div class="modal fade" id="del_not{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Notification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Delete notification?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <a type="button" class="btn btn-sm btn-danger" href="{% url 'department:not_delete' n4.id %}">Confirm</a>
+              </div>
+            </div>
           </div>
           </div>
+
           {% endfor %}
         </div>
         <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>

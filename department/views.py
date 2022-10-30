@@ -1,3 +1,4 @@
+from ast import Delete
 from django.shortcuts import render,get_object_or_404
 import department
 from department.forms import DepForm,DepProfileInfoForm, CourseAddForm, NotForm, FacForm, FacultyForm, TeachesForm
@@ -159,6 +160,20 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('welcome'))
 
+def approve_student(request, student_id):
+    student = User.objects.get(id=student_id)
+    info = StudentInfo.objects.get(user=student)
+    info.approved=True
+    info.save()
+    return HttpResponseRedirect(reverse('index'))
+
+def reject_student(request, student_id):
+    student = User.objects.get(id=student_id)
+    info = StudentInfo.objects.get(user=student)
+    info.delete()
+    student.delete()
+    return HttpResponseRedirect(reverse('index'))
+
 def register(request):
     registered = False
     if request.method == 'POST':
@@ -223,3 +238,15 @@ def courseAdd(request):
                           {
                            'course_form':course_form,
                            'registered':registered})
+
+def courseDel(request, course_id):
+    print(course_id)
+    crs=CourseInfo.objects.get(id=course_id)
+    crs.delete()
+    
+    return HttpResponseRedirect(reverse('index'))
+
+def notDel(request, not_id):
+    nt=Notification.objects.get(id=not_id)
+    nt.delete()
+    return HttpResponseRedirect(reverse('index'))

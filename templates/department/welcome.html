@@ -24,15 +24,23 @@
 <div class="container">
   
   
+    {% if messages %}
+    <div class="alert alert-danger">
+      {% for message in messages %}
+      <div {% if message.tags %} class="{{message.tags}}" {% endif %}>{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+ 
   <div class="container">
     <div class="row">
       <div class="col-md-8">
         <div class="list-group">
-          <button type="button" class="list-group-item list-group-item-action bg-secondary text-white"><u>Notifications</u></button>
+          <button type="button" class="list-group-item list-group-item-action bg-dark text-white"><u>Notifications</u></button>
           {% for n4 in nots4 %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-10">{{ n4.notification }}
+            <div class="col-sm-10">{{ n4.notification }}{{val}}
             </div>
             <div class="col-sm-2">
               <small>{{ n4.publish_date }}</small></div>
@@ -67,7 +75,7 @@
                     {% endfor %}
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
@@ -89,7 +97,7 @@
           <input type="text" name="username" placeholder="Department Username"><br>
           <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
-          <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
+          <input type="submit" name="" value="Login" class="btn btn-dark">&nbsp;
           New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdropse">Register</a> <br><br>
         </form>
 
@@ -140,7 +148,7 @@
           <input type="text" name="username" placeholder="Student Username"><br>
           <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
-          <input type="submit" name="" value="Login" class="btn btn-secondary">&nbsp;
+          <input type="submit" name="" value="Login" class="btn btn-dark">&nbsp;
           New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop2">Register</a> <br><br>
         </form>
 
@@ -161,7 +169,7 @@
                   <h1>Thank you for registering!</h1>
                 {% else %}
                   <form enctype="multipart/form-data" method="POST">
-                  {% csrf_token %}
+                    {% csrf_token %}
                     {{ s_user_form.as_p }}
                     {{ s_profile_form.as_p }}
                     <input type="submit" name="" value="Register">
@@ -187,7 +195,7 @@
         <div class='card-header'>Staff Coordinator Login</div>
        </div>
        <div id='adm' class="card text-center mt-3"  style="display: none;">
-        <div class='card-header'>Admin Login</div>
+        <div class='card-header'><a href="/admin"> Admin Login </a></div>
        </div>
       <div class="card mt-3">
         <div class="card-header text-center">
@@ -201,7 +209,7 @@
               <button class="dropdown-item" onclick="depshow()">Department</button>
               <button class="dropdown-item" onclick="staffshow()">Staff Coordinator</button>
               <button class="dropdown-item" onclick="facshow()">Faculty</button>
-              <button class="dropdown-item" onclick="admshow()">Admin</button>
+              <a class="dropdown-item" href="/admin"> Admin </a>
             </div>
           </div>
         </div>
@@ -215,7 +223,7 @@
     
   <div class="bg-light ">
       
-    <div class="p-2 mb-2 bg-secondary text-white">Couses</div>
+    <div class="p-2 mb-2 bg-dark text-white">Couses</div>
     <div class="container">
       
       <div class="accordion" id="accordionExample">
@@ -258,7 +266,7 @@
   </div>
 
   <!-- <div class="bg-light ">
-    <div class="p-3 mb-2 bg-secondary text-white">Couses</div>
+    <div class="p-3 mb-2 bg-dark text-white">Couses</div>
     <div class="container">
     {% for rec in r %} <br>
       <h6>{{rec.dep}}</h6>

@@ -7,4 +7,5 @@ urlpatterns=[
     url('register/',views.register,name='register'),
     url('student_login/',views.student_login,name='student_login'),
     url('stu/', views.index, name='stu'),
+    url(r'^enroll/(?P<course_id>\d+)$', views.enrollStudent, name='enroll_student'),
 ]

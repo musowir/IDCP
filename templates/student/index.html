@@ -8,13 +8,13 @@
     <div class="col-3">
       
       <div class="list-group" id="list-tab" role="tablist">
-        <a class="list-group-item list-group-item-action list-group-item-secondary active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="bi bi-house-fill"></i>&nbsp; Home</a>
-        <!-- <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a> -->
-        <!-- <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-student-list" data-toggle="list" href="#list-student" role="tab" aria-controls="student"><i class="bi bi-people-fill"></i>&nbsp; Students</a> -->
-        <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-layers-fill"></i>&nbsp; Courses</a>
-        <!-- <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-application-list" data-toggle="list" href="#list-application" role="tab" aria-controls="applications"><i class="bi bi-file-earmark-person-fill"></i>&nbsp; Applications</a> -->
-        <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-notification-list" data-toggle="list" href="#list-notification" role="tab" aria-controls="notification"><i class="bi bi-bell-fill"></i>&nbsp; Notifications</a>
-        <a class="list-group-item list-group-item-action list-group-item-secondary"  data-toggle="modal" data-target="#logoutModalCenter" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"><i class="bi bi-x-square-fill"></i>&nbsp; Logout</a>
+        <a class="list-group-item list-group-item-action list-group-item-dark active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="bi bi-house-fill"></i>&nbsp; Home</a>
+        <!-- <a class="list-group-item list-group-item-action list-group-item-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a> -->
+        <!-- <a class="list-group-item list-group-item-action list-group-item-dark" id="list-student-list" data-toggle="list" href="#list-student" role="tab" aria-controls="student"><i class="bi bi-people-fill"></i>&nbsp; Students</a> -->
+        <a class="list-group-item list-group-item-action list-group-item-dark" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-layers-fill"></i>&nbsp; Courses</a>
+        <!-- <a class="list-group-item list-group-item-action list-group-item-dark" id="list-application-list" data-toggle="list" href="#list-application" role="tab" aria-controls="applications"><i class="bi bi-file-earmark-person-fill"></i>&nbsp; Applications</a> -->
+        <a class="list-group-item list-group-item-action list-group-item-dark" id="list-notification-list" data-toggle="list" href="#list-notification" role="tab" aria-controls="notification"><i class="bi bi-bell-fill"></i>&nbsp; Notifications</a>
+        <a class="list-group-item list-group-item-action list-group-item-dark"  data-toggle="modal" data-target="#logoutModalCenter" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"><i class="bi bi-x-square-fill"></i>&nbsp; Logout</a>
         
       </div>
     </div>
@@ -24,11 +24,34 @@
             <div class="container">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">{{ depinf.department_name}}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">@{{depinf.user}}</h6>
-                  <p class="card-text">{{depinf.bio}}</p>
-                  <a href="{{depinf.website}}" class="text-secondary">{{depinf.website}}</a> | <a href="tel:+{{depinf.phone}}" class="text-secondary">{{depinf.phone}}</a>
+                  <h5 class="card-title">{{ student.user.first_name}} {{ student.user.last_name}} ({{student.exam_reg_no}})</h5>
+                  <p class="card-subtitle mb-2 text-muted">@{{student.user}} &emsp13;
+                    {% if student.approved %}
+                    <span class="badge badge-pill badge-primary"><i class="bi bi-patch-check-fill"></i> verified</span>
+                    {% else %}
+                    <span class="badge badge-pill badge-warning">Profile not approved by your department</span>
+                  {% endif %}
+                  </p>
+                  <p class="card-text">{{student.course}} @ {{student.department}}, CUSAT</p>
+                  <a href="mailto:{{student.user.email}}" class="text-dark">{{student.user.email}}</a> | <a href="tel:+{{student.phone}}" class="text-dark">{{student.phone}}</a>
                 </div>
+              </div>
+
+              <div class="card mt-3">
+                <div class="alert alert-dark m-2" role="alert">
+                  <b>Enrolled Course</b>
+                </div>
+                {% if en == 0 %}
+                <div class="m-2">
+                  You have not enrolled into any courses.
+                </div>
+                {% else %}
+                <div class="m-4">
+                  <b>{{en.course.course_code}} - {{en.course.course_name}}</b><br>
+                    {{en.course.department}}
+
+                </div>
+                {% endif %}
               </div>
             </div>
 
@@ -36,82 +59,106 @@
         </div>
         <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
         <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-
-          <div class="bg-light ">
-            <div class="container">
-              
-              <div class="accordion" id="accordionExample">
+          <div class="alert alert-dark" role="alert">
+            <b>Courses Available</b>
+          </div>
+          <div class="bg-white  overflow-auto" style="height: 500px;">
+            
+              {% for c in cor %}  
+              <div class="list-group-item list-group-item-action">
+                <div class="row">
+                    
+                  <div class="col-md-8">
+                      <b>{{c.course_code}} - {{c.course_name}}</b><br>
+                      <small>
+                      <i>{{c.department}}</i><br>
+                      Start date: <b>{{c.start_date}}</b> &nbsp; | &nbsp;
+                      No of seats left: </small><b><span class="badge badge-pill badge-info">{{c.seats_left}}/{{c.no_of_seats}}</span></b>
                 
-                {% for rec in r %}
-        
-                <div class="card">
-        
-                  <div class="card-header" id="h{{ forloop.counter }}">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#c{{ forloop.counter }}" aria-expanded="true" aria-controls="">
-                        {{rec.dep}}
-                      </button>
-                    </h2>
                   </div>
-              
-                  <div id="c{{ forloop.counter }}" class="collapse" aria-labelledby="#h{{ forloop.counter }}" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <div class="row">
-                        {% for c in rec.cor %}    
-                        <div class="card col-md-5  m-2 p-2 bg-light border rounded">
-                            <b>{{c.course_code}} - {{c.course_name}}</b>
-                            <small>
-                            Start date: {{c.start_date}} &nbsp; | &nbsp;
-                            No of seats: {{c.no_of_seats}} </small>
-                            <!-- Button trigger modal -->
-                    <a href="" class="card-link" data-toggle="modal" data-target="#h{{ forloop.counter }}">
-                      More...</a>
-  
-                      <!-- Course Modal -->
-                      <div class="modal fade" id="h{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">{{c.course_code}} - {{c.course_name}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            Department : {{c.department}} <br>
-                            Start Date : {{c.start_date}} <br>
-                            Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
-                            No of seats : {{c.no_of_seats}} <br>
-                            
-                            <a href="../../static/campus.jpg">Syllabus</a>
-                            {{c.syllabus}}
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                      </div>
-                        </div>
-                        {% empty %}
-                        <p class="pl-5">No courses available.. </p>
-                        {% endfor %}
-                      </div>
-          
-                    </div>  
-                  </div>
-        
+                  <div class="col-md-2 my-auto">
+                    <a href="" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#ht{{ forloop.counter }}">More info</a>
                 </div>
-                  {% endfor %}
-              </div>
-            <br>
+                <div class="col-md-2 my-auto mx-auto">
+                 {% if student.approved and en == 0 and c.seats_left > 0  %}
+                
+                  <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#enrolled{{ forloop.counter }}"><i class="bi bi-person-plus-fill"></i> Enroll</button>
+                  {% endif %}
+                  {% if c.seats_left == 0 %}
+                  <span class="badge badge-pill badge-danger">Housefull!</span>
+                  {% endif %}
+                  {% if en != 0 and en.course == c %}
+                  <span class="badge badge-pill badge-warning">Enrolled</span>
+                  {% endif %}
+                  
+                  
+                  
+                </div>
+                   
+                 
             </div>
           </div>
+
+           <!-- Course Modal -->
+           <div class="modal fade" id="ht{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">{{c.course_code}} - {{c.course_name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Start Date : {{c.start_date}} <br>
+                  Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
+                  No of seats : {{c.no_of_seats}} <br>
+                 
+                  <a href="../../static/campus.jpg">Syllabus</a>
+                  {{c.syllabus}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <!-- modal -->
+<div class="modal fade" id="enrolled{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="logoutModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLongTitle">Confirm Enrollment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        You will have to contact your department to cancel enrollment. <br>
+        Confirm enrollment to course {{c.name}}?
+      </div>
+      <div class="modal-footer">
+        {% if user.is_authenticated %}
+        <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
+        <a type="button" class="btn btn-sm btn-danger" href="{% url 'student:enroll_student' c.id %}">Confirm</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+                  {% empty %}
+                  <p class="pl-5">No courses available.. </p>
+                  {% endfor %}
+              
+              
+            </div>
           
         </div>
         <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">
 
-          {% for s in student %}
+          {% for s in stude %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
             <div class="col-sm-10">{{ s.exam_reg_no }}
@@ -125,6 +172,7 @@
         <div class="tab-pane fade" id="list-application" role="tabpanel" aria-labelledby="list-application-list">approve application</div>
         <div class="tab-pane fade" id="list-notification" role="tabpanel" aria-labelledby="list-notification-list">
 
+          {% if en != 0 %}
 
           {% for n4 in notsin %}
           <div class="list-group-item list-group-item-action">
@@ -135,7 +183,20 @@
               <small>{{ n4.publish_date }}</small></div>
           </div>
           </div>
+          {% empty %}
+          
+          <div class="list-group-item list-group-item-action">
+            <div class="row">
+              No notification from your course enrolled department.
+          </div></div>
           {% endfor %}
+
+          {% else %}
+          <div class="list-group-item list-group-item-action">
+            <div class="row">
+              You are not enrolled to any course.
+          </div></div>
+          {% endif %}
         </div>
         <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
       </div>
@@ -159,12 +220,13 @@
       <div class="modal-footer">
         {% if user.is_authenticated %}
         <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
-        <a class="btn btn-secondary" href="{% url 'logout' %}"> Confirm</a>
+        <a class="btn btn-dark" href="{% url 'logout' %}"> Confirm</a>
         {% endif %}
       </div>
     </div>
   </div>
 </div>
+
 
 {% else %}
 

@@ -1,5 +1,6 @@
+from dataclasses import field
 from django import forms
-from student.models import StudentInfo
+from student.models import StudentInfo, Enroll
 from django.contrib.auth.models import User
 class StudentForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -9,4 +10,5 @@ class StudentForm(forms.ModelForm):
 class StudentProfileInfoForm(forms.ModelForm):
      class Meta():
          model = StudentInfo
-         fields = ('exam_reg_no','phone','department','course','cgpa')
+         fields = ('exam_reg_no','phone','department','course')
+

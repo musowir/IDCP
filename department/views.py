@@ -1,6 +1,6 @@
 from ast import Delete
-from django.shortcuts import render,get_object_or_404
-import department
+from django.shortcuts import render
+from django.contrib import messages
 from department.forms import DepForm,DepProfileInfoForm, CourseAddForm, NotForm, FacForm, FacultyForm, TeachesForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -8,20 +8,25 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from department.models import CourseInfo, DepProfileInfo, Notification, Faculty, Teaches
-from student.models import StudentInfo
+from student.models import Enroll, StudentInfo
 from student.forms import StudentForm, StudentProfileInfoForm
+import os
+import mimetypes
+
 
 #@login_required(login_url='/')
 def index(request):
     registered = False
     if request.method == 'POST':
-        course_form = CourseAddForm(data=request.POST)
+        depinf = DepProfileInfo.objects.get(user=request.user)
+        course_form = CourseAddForm(request.POST, request.FILES)
         if course_form.is_valid():
-            
             course = course_form.save(commit=False)
-            
+            course.department=depinf
             course.save()
+            seatadjsut()
             registered = True
+            
         else:
             print(course_form.errors)
     else:
@@ -49,12 +54,14 @@ def index(request):
         f_profile_form = FacultyForm()
     
     if request.method == 'POST':
+        depinf = DepProfileInfo.objects.get(user=request.user)
         nots_form = NotForm(data=request.POST)
         if nots_form.is_valid():
             
             nots = nots_form.save(commit=False)
-            
+            nots.department = depinf
             nots.save()
+            nots_form = NotForm()
             registered = True
         else:
             print(nots_form.errors)
@@ -62,6 +69,7 @@ def index(request):
         nots_form = NotForm()
 
     if request.method == 'POST':
+        
         tc_form = TeachesForm(data=request.POST)
         if tc_form.is_valid():
             
@@ -81,12 +89,26 @@ def index(request):
         student = StudentInfo.objects.filter(department=depinf)
         staff = Faculty.objects.filter(department=depinf)
         teaches = Teaches.objects.all()
+        teach=[]
+        for tch in teaches:
+            if tch.course.department==depinf:
+                teach.append(tch)
+        enrolled = Enroll.objects.all()
+        en_lst=[]
+        for enr in enrolled:
+            if enr.course.department==depinf:
+                en_lst.append(enr)
+
+
         f_no_list =[st for st in staff if st not in [t.faculty for t in teaches]]
-        
-        print(f_no_list)
-        s_users = [s.user_id for s in student]
-        sser = User.objects.filter(is_staff=False)
-        return render(request,'department/index.html', {'teaches': teaches,'f_no_list': f_no_list, 'tc_form':tc_form,'depinf':depinf,'notsin':notsin, 'cour': cour, 'course_form':course_form, 'nots_form': nots_form, 'student':student, 'f_user_form': f_user_form, 'f_profile_form': f_profile_form, 'staff': staff})
+        c_no_list =[cs for cs in cour if cs not in [c.course for c in teaches]]
+        course_form = CourseAddForm()
+        f_user_form = FacForm()
+        f_profile_form = FacultyForm()
+        tc_form = TeachesForm()
+        nots_form = NotForm()
+        return render(request,'department/index.html', {'enrolled': en_lst,'teaches': teach, 'c_no_list': c_no_list,'f_no_list': f_no_list, 'tc_form':tc_form,'depinf':depinf,'notsin':notsin, 'cour': cour, 'course_form':course_form, 'nots_form': nots_form, 'student':student, 'f_user_form': f_user_form, 'f_profile_form': f_profile_form, 'staff': staff})
+
 
 
 
@@ -124,7 +146,7 @@ def welcome(request):
 
         return render(request,'department/welcome.html', context={'r':r, 'user_form':user_form,
                             'profile_form':profile_form,
-                            'registered':registered, 'nots': nots, 'nots4':nots4 })
+                            'registered':registered, 'nots': nots, 'nots4':nots4,  })
     else:
         registered = False
         if request.method == 'POST':
@@ -148,7 +170,7 @@ def welcome(request):
             s_profile_form = StudentProfileInfoForm()
         return render(request,'department/welcome.html', context={'r':r, 's_user_form':s_user_form,
                             's_profile_form':s_profile_form,
-                            'registered':registered, 'nots': nots, 'nots4':nots4 })
+                            'registered':registered, 'nots': nots, 'nots4':nots4,  })
 
 
 @login_required
@@ -165,6 +187,14 @@ def approve_student(request, student_id):
     info = StudentInfo.objects.get(user=student)
     info.approved=True
     info.save()
+    return HttpResponseRedirect(reverse('index'))
+
+def approve_all(request):
+    dep = DepProfileInfo.objects.get(user=request.user)
+    st = StudentInfo.objects.filter(department=dep)
+    for s in st:
+        s.approved=True
+        s.save()
     return HttpResponseRedirect(reverse('index'))
 
 def reject_student(request, student_id):
@@ -200,8 +230,6 @@ def register(request):
                           {'user_form':user_form,
                            'profile_form':profile_form,
                            'registered':registered})
-
-
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -212,32 +240,41 @@ def user_login(request):
                 login(request,user)
                 return HttpResponseRedirect(reverse('index'))
             else:
-                return HttpResponse("Your account was inactive or not a department.")
+                messages.success(request, "You are not a Department!")
+                return HttpResponseRedirect(reverse('welcome'))
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username,password))
-            return HttpResponse("Invalid login details given")
+            messages.success(request, "Invalid login details given")
+            return HttpResponseRedirect(reverse('welcome'))
     else:
-        return render(request, 'department/login.html', {})
+        return HttpResponseRedirect(reverse('welcome'))
 
 def courseAdd(request):
     registered = False
     if request.method == 'POST':
-        course_form = CourseAddForm(data=request.POST)
+        course_form = CourseAddForm(request.POST, request.FILES)
         if course_form.is_valid():
             
             course = course_form.save(commit=False)
-            
             course.save()
             registered = True
+            
         else:
             print(course_form.errors)
     else:
         course_form = CourseAddForm()
-    return render(request,'department/courseadd.html',
+    seatadjsut()
+    return render(request,'department/',
                           {
                            'course_form':course_form,
                            'registered':registered})
+
+def seatadjsut():
+    c = CourseInfo.objects.all().order_by('-id')[0]
+    print(c)
+    c.seats_left = c.no_of_seats
+    c.save()
 
 def courseDel(request, course_id):
     print(course_id)
@@ -250,3 +287,44 @@ def notDel(request, not_id):
     nt=Notification.objects.get(id=not_id)
     nt.delete()
     return HttpResponseRedirect(reverse('index'))
+
+def unEnroll(request, enroll_id):
+    enroled = Enroll.objects.get(id=enroll_id)
+    enroled.delete()
+    cor = CourseInfo.objects.get(id=enroled.course.id)
+    cor.seats_left+=1
+    cor.save()
+    return HttpResponseRedirect(reverse('index'))
+
+def downloadSyl(request, course_id):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    corse= CourseInfo.objects.get(id=course_id)
+    paths = corse.syllabus.url
+    filepath = BASE_DIR + paths
+    #path = open(filepath, 'r', encoding='utf-8')
+    with open(filepath, 'rb') as f:
+        path = f.read()
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(path, content_type=mime_type)
+    # Set the HTTP header for sending to browser
+    response['Content-Disposition'] = "attachment; filename=%s.pdf" % "syllabus"
+    # Return the response value
+    return response
+
+def enrollInfo(request):
+    dep = DepProfileInfo.objects.get(user_id=request.user.id)
+    enrol = Enroll.objects.all()
+    enr_dep=[]
+    for en_s in enrol:
+        if en_s.student.department == dep:
+            enr_dep.append(en_s)
+    return render(request,'department/EnrollData.html', {'enroll':enr_dep, 'dep':dep })
+
+def StudentRegInfo(request):
+    dep = DepProfileInfo.objects.get(user_id=request.user.id)
+    enrol = Enroll.objects.all()
+    enr_dep=[]
+    for en_s in enrol:
+        if en_s.course.department == dep:
+            enr_dep.append(en_s)
+    return render(request,'department/DepStudents.html', {'student':enr_dep, 'dep': dep })

@@ -22,8 +22,8 @@ class CourseInfo(models.Model):
     slot = models.CharField(max_length=5, choices=slots, default='E')
     hours_per_week = models.IntegerField()
     no_of_seats = models.IntegerField()
-    syllabus = models.FileField(upload_to='uploads/', blank=True, null=True
-    )
+    seats_left = models.IntegerField(blank=True, null=True)
+    syllabus = models.FileField(upload_to='uploads/')
 
     def __str__(self) :
        return self.course_name

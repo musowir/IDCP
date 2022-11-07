@@ -7,9 +7,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from department.models import CourseInfo, DepProfileInfo, Notification, Faculty, Teaches
+from department.models import CourseInfo, DepProfileInfo, Notification, Faculty, Teaches, ProgramInfo
 from student.models import Enroll, StudentInfo
-from student.forms import StudentForm, StudentProfileInfoForm
 import os
 import mimetypes
 
@@ -116,61 +115,13 @@ def welcome(request):
     deps=DepProfileInfo.objects.all()
     nots4 = Notification.objects.all().order_by('-id')[:4]
     nots = Notification.objects.all().order_by('-id')[4:]
+    progs = ProgramInfo.objects.all()
     r=[]
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)
         r.append({'dep':d, 'cor':c})
-        
-    if request.user.is_staff:
-        registered = False
-        if request.method == 'POST':
-            user_form = DepForm(data=request.POST)
-            profile_form = DepProfileInfoForm(data=request.POST)
-            if user_form.is_valid() and profile_form.is_valid():
-                user = user_form.save()
-                user.set_password(user.password)
-                user.is_staff=True
-                user.save()
-                profile = profile_form.save(commit=False)
-                profile.user = user
-                if 'profile_pic' in request.FILES:
-                    print('found it')
-                    profile.profile_pic = request.FILES['profile_pic']
-                profile.save()
-                registered = True
-            else:
-                print(user_form.errors,profile_form.errors)
-        else:
-            user_form = DepForm()
-            profile_form = DepProfileInfoForm()
 
-        return render(request,'department/welcome.html', context={'r':r, 'user_form':user_form,
-                            'profile_form':profile_form,
-                            'registered':registered, 'nots': nots, 'nots4':nots4,  })
-    else:
-        registered = False
-        if request.method == 'POST':
-            s_user_form = StudentForm(data=request.POST)
-            s_profile_form = StudentProfileInfoForm(data=request.POST)
-            if s_user_form.is_valid() and s_profile_form.is_valid():
-                user = s_user_form.save()
-                user.set_password(user.password)
-                user.save()
-                s_profile = s_profile_form.save(commit=False)
-                s_profile.user = user
-                if 'profile_pic' in request.FILES:
-                    print('found it')
-                    s_profile.profile_pic = request.FILES['profile_pic']
-                s_profile.save()
-                registered = True
-            else:
-                print(s_user_form.errors,s_profile_form.errors)
-        else:
-            s_user_form = StudentForm()
-            s_profile_form = StudentProfileInfoForm()
-        return render(request,'department/welcome.html', context={'r':r, 's_user_form':s_user_form,
-                            's_profile_form':s_profile_form,
-                            'registered':registered, 'nots': nots, 'nots4':nots4,  })
+    return render(request,'department/welcome.html', context={'progs':progs,'r':r, 'nots': nots, 'nots4':nots4, 'deps':deps  })
 
 
 @login_required
@@ -205,31 +156,27 @@ def reject_student(request, student_id):
     return HttpResponseRedirect(reverse('index'))
 
 def register(request):
-    registered = False
     if request.method == 'POST':
-        user_form = DepForm(data=request.POST)
-        profile_form = DepProfileInfoForm(data=request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
-            user.is_staff=True
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            if 'profile_pic' in request.FILES:
-                print('found it')
-                profile.profile_pic = request.FILES['profile_pic']
-            profile.save()
-            registered = True
-        else:
-            print(user_form.errors,profile_form.errors)
-    else:
-        user_form = DepForm()
-        profile_form = DepProfileInfoForm()
-    return render(request,'department/registration.html',
-                          {'user_form':user_form,
-                           'profile_form':profile_form,
-                           'registered':registered})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+            dep0 = User(username=username, email=email, is_staff=1)
+            dep0.set_password(password)
+            dep0.save()
+
+            phone = request.POST.get('phone')
+            department_name = request.POST.get('department_name')
+            bio = request.POST.get('bio')
+            website = request.POST.get('website')
+            st_inf = DepProfileInfo(phone=phone, department_name=department_name, user_id=dep0.id, bio=bio, website=website)
+            st_inf.save()
+            messages.success(request, "Regitration Success!")
+            return HttpResponseRedirect(reverse('welcome'))
+        else: 
+            messages.warning(request, "Username or email already exist!")
+            return HttpResponseRedirect(reverse('welcome'))
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -240,12 +187,12 @@ def user_login(request):
                 login(request,user)
                 return HttpResponseRedirect(reverse('index'))
             else:
-                messages.success(request, "You are not a Department!")
+                messages.warning(request, "You are not a Department!")
                 return HttpResponseRedirect(reverse('welcome'))
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username,password))
-            messages.success(request, "Invalid login details given")
+            messages.warning(request, "Invalid login details given")
             return HttpResponseRedirect(reverse('welcome'))
     else:
         return HttpResponseRedirect(reverse('welcome'))
@@ -328,3 +275,5 @@ def StudentRegInfo(request):
         if en_s.course.department == dep:
             enr_dep.append(en_s)
     return render(request,'department/DepStudents.html', {'student':enr_dep, 'dep': dep })
+
+

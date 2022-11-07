@@ -24,9 +24,15 @@ class CourseInfo(models.Model):
     no_of_seats = models.IntegerField()
     seats_left = models.IntegerField(blank=True, null=True)
     syllabus = models.FileField(upload_to='uploads/')
-
     def __str__(self) :
        return self.course_name
+
+class ProgramInfo(models.Model):
+    program_name = models.CharField(max_length=200)
+    department = models.ForeignKey(DepProfileInfo, on_delete=models.CASCADE)
+
+    def __str__(self) :
+       return self.program_name
 
 class Notification(models.Model):
   notification = models.TextField(max_length=400)

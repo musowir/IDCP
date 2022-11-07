@@ -35,5 +35,5 @@ class FacultyForm(forms.ModelForm):
 class TeachesForm(forms.ModelForm):
     class Meta():
         model = Teaches
-        fields=('faculty',)
+        fields=('faculty','course')
                 

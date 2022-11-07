@@ -25,11 +25,19 @@
   
   
     {% if messages %}
-    <div class="alert alert-danger">
+    
       {% for message in messages %}
+      {% if message.tags == 'success' %}
+      <div class="alert alert-success">
       <div {% if message.tags %} class="{{message.tags}}" {% endif %}>{{ message }}</div>
+      </div>
+      {% else %}
+      <div class="alert alert-danger">
+        <div {% if message.tags %} class="{{message.tags}}" {% endif %}>{{ message }}</div>
+      </div>
+      {% endif %}
       {% endfor %}
-    </div>
+    
     {% endif %}
  
   <div class="container">
@@ -91,18 +99,18 @@
         <div class="card-header">Department Login</div>
         <div class="card-body">
         <form method="post" action="{% url 'department:user_login' %}">
-        {% csrf_token %}
+          {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
           <label for="username">Username:</label>
           <input type="text" name="username" placeholder="Department Username"><br>
           <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Password"><br><br>
           <input type="submit" name="" value="Login" class="btn btn-dark">&nbsp;
-          New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdropse">Register</a> <br><br>
+          New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdropsedep">Register</a> <br><br>
         </form>
 
           <!-- Modal register dep-->
-           <div class="modal fade" id="staticBackdropse" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+           <div class="modal fade" id="staticBackdropsedep" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -117,11 +125,20 @@
                   {% if registered %}
                   <h1>Thank you for registering!</h1>
                 {% else %}
-                  <form enctype="multipart/form-data" method="POST">
-                  {% csrf_token %}
-                    {{ user_form.as_p }}
-                    {{ profile_form.as_p }}
-                    <input type="submit" name="" value="Register">
+                  <form method="post" action="{% url 'department:register' %}" class="text-left">
+                    {% csrf_token %}
+                    
+                    <label for="username">Username: <input type="text" name="username" id="username"></label>
+                    <label for="department_name">Department Name: <input type="text" name="department_name" id="department_name"></label>
+                    <label for="bio">About:
+                      <textarea name="bio" id="bio" cols="30" rows="5"></textarea>
+                    </label>
+                    <label for="email">Email: <input type="email" name="email" id="email"></label>
+                    <label for="phone">Mobile Number: <input type="text" name="phone" id="phone"></label>
+                    <label for="website">Website: <input type="url" name="website" id="website"></label>
+                    <label for="password">Password: <input type="password" name="password" id="password"></label>
+                    <br><br><center> <input type="submit" class="btn-success btn" name="" value="Register"></center>
+                  
                   </form>
       
                   {% endif %}
@@ -168,11 +185,32 @@
                   {% if registered %}
                   <h1>Thank you for registering!</h1>
                 {% else %}
-                  <form enctype="multipart/form-data" method="POST">
+                  <form method="post" action="{% url 'student:register' %}">
                     {% csrf_token %}
-                    {{ s_user_form.as_p }}
-                    {{ s_profile_form.as_p }}
-                    <input type="submit" name="" value="Register">
+                    <label for="username">Username: <input type="text" name="username" id="username"></label>
+                    <label for="exam_reg_no">Exam Register No: <input type="number" name="exam_reg_no" id="exam_reg_no"></label>
+                    <label for="first_name">First Name: <input type="text" name="first_name" id="first_name"></label>
+                    <label for="last_name">Last Name: <input type="text" name="last_name" id="last_name"></label>
+                    <label for="email">Email: <input type="email" name="email" id="email"></label>
+                    <label for="phone">Mobile Number: <input type="text" name="phone" id="phone"></label>
+                    <label for="department">Department:
+                      <select name="department" id="department">
+                        <option value="">------</option>
+                        {% for d in deps %}
+                        <option value="{{ d.id }}">{{d}}</option>
+                        {% endfor %}
+                      </select>
+                    </label>
+                    <label for="course">Course:
+                      <select name="course" id="course">
+                      <option value="">------</option>
+                      {% for p in progs %}
+                      <option value="{{ p.program_name }}">{{ p.program_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </label>
+                    <label for="password">Password: <input type="password" name="password" id="password"></label>
+                    <br><br><center> <input type="submit" class="btn-success btn" name="" value="Register"></center>
                   </form>
       
                   {% endif %}

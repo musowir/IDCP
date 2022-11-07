@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+
 
 from django.shortcuts import render
 from student.forms import StudentForm, StudentProfileInfoForm
@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from department.models import DepProfileInfo, CourseInfo, Notification
 from student.models import Enroll, StudentInfo
 from django.contrib import messages
+from django.contrib.auth.models import User
+
 def index(request):
     student = StudentInfo.objects.get(user=request.user)
     deps=DepProfileInfo.objects.all()
@@ -49,31 +51,34 @@ def special(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('welcome'))
+
 def register(request):
     registered = False
     if request.method == 'POST':
-        s_user_form = StudentForm(data=request.POST)
-        s_profile_form = StudentProfileInfoForm(data=request.POST)
-        if s_user_form.is_valid() and s_profile_form.is_valid():
-            user = s_user_form.save()
-            user.set_password(user.password)
-            user.save()
-            s_profile = s_profile_form.save(commit=False)
-            s_profile.user = user
-            if 'profile_pic' in request.FILES:
-                print('found it')
-                s_profile.profile_pic = request.FILES['profile_pic']
-            s_profile.save()
-            registered = True
-        else:
-            print(s_user_form.errors,s_profile_form.errors)
-    else:
-        s_user_form = StudentForm()
-        s_profile_form = StudentProfileInfoForm()
-    return render(request,'student/registration.html',
-                          {'s_user_form':s_user_form,
-                           's_profile_form':s_profile_form,
-                           'registered':registered})                        
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+            st = User(username=username, first_name=first_name, last_name=last_name, email=email, is_staff=0)
+            st.set_password(password)
+            st.save()
+
+            phone = request.POST.get('phone')
+            exam_reg_no = request.POST.get('exam_reg_no')
+            dep_id = request.POST.get('department')
+            department = DepProfileInfo.objects.get(id=dep_id)
+            course = request.POST.get('course')
+            st_inf = StudentInfo(exam_reg_no=exam_reg_no, phone=phone, department=department, course=course, user_id=st.id, approved=0)
+            st_inf.save()
+            messages.success(request, "Regitration Success!")
+            return HttpResponseRedirect(reverse('welcome'))
+        else: 
+            messages.warning(request, "Username or email already exist!")
+            return HttpResponseRedirect(reverse('welcome'))
+   
+
 def student_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -84,12 +89,12 @@ def student_login(request):
                 login(request,user)
                 return HttpResponseRedirect(reverse('s_index'))
             else:
-                messages.success(request, "You are not a student!")
+                messages.warning(request, "You are not a student!")
                 return HttpResponseRedirect(reverse('welcome'))
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username,password))
-            messages.success(request, "Invalid login details given")
+            messages.warning(request, "Invalid login details given")
             return HttpResponseRedirect(reverse('welcome'))
     else:
         return render(request, 'student/login.html', {})

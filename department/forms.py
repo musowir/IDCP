@@ -2,6 +2,8 @@
 from django import forms
 from department.models import DepProfileInfo, CourseInfo, Faculty, Notification, Teaches
 from django.contrib.auth.models import User
+from bootstrap_datepicker_plus.widgets import DatePickerInput
+
 class DepForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     class Meta():
@@ -12,10 +14,17 @@ class DepProfileInfoForm(forms.ModelForm):
          model = DepProfileInfo
          fields = ('department_name', 'bio','phone', 'website')
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class CourseAddForm(forms.ModelForm):
     class Meta():
         model = CourseInfo
-        fields = ('course_code', 'course_name', 'start_date', 'slot','hours_per_week', 'no_of_seats', 'syllabus')
+        fields = ['course_code', 'course_name', 'start_date', 'slot','hours_per_week', 'no_of_seats', 'syllabus']
+        widgets={
+            'start_date': DatePickerInput(),
+        }
+        
 
 class NotForm(forms.ModelForm):
     class Meta():

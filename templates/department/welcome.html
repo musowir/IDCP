@@ -48,9 +48,11 @@
           {% for n4 in nots4 %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-10">{{ n4.notification }}{{val}}
+            <div class="col-sm-7 my-auto">{{ n4.notification }}
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3  my-auto"><small>{{ n4.department }}</small>
+            </div>
+            <div class="col-sm-2  my-auto">
               <small>{{ n4.publish_date }}</small></div>
           </div>
           </div>
@@ -286,8 +288,9 @@
                     <b>{{c.course_code}} - {{c.course_name}}</b>
                     <small>
                     Start date: {{c.start_date}} &nbsp; | &nbsp;
-                    No of seats: {{c.no_of_seats}} </small>
+                    Available no of seats: <span class="badge badge-warning badge-pill">{{c.seats_left}}/{{c.no_of_seats}}</span> </small>
                 </div>
+
                 {% empty %}
                 <p class="pl-5">No courses available.. </p>
                 {% endfor %}

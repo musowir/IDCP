@@ -276,4 +276,12 @@ def StudentRegInfo(request):
             enr_dep.append(en_s)
     return render(request,'department/DepStudents.html', {'student':enr_dep, 'dep': dep })
 
+def assign_fac(request):
+    fac = request.POST.get('faculty')
+    course = request.POST.get('course')
+    fac= Faculty.objects.get(id=fac)
+    course = CourseInfo.objects.get(id=course)
+    ass = Teaches(faculty=fac, course=course)
+    ass.save()
+    return HttpResponseRedirect(reverse('index'))
 

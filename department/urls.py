@@ -16,8 +16,10 @@ urlpatterns=[
     url(r'^not_delete/(?P<not_id>\d+)$', views.notDel, name='not_delete'),
     url(r'^unenroll/(?P<enroll_id>\d+)$', views.unEnroll, name='unenroll'),
     url(r'^download/(?P<course_id>\d+)$', views.downloadSyl, name='download'),
+    url('assign_fac', views.assign_fac, name='assign_fac'),
     url('print_preview', views.enrollInfo, name='print_preview'),
     url('student_preview', views.StudentRegInfo, name='student_preview'),
+
     
 
 

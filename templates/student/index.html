@@ -114,8 +114,8 @@
                   Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
                   No of seats : {{c.no_of_seats}} <br>
                  
-                  <a href="../../static/campus.jpg">Syllabus</a>
-                  {{c.syllabus}}
+                  <a href="{% url 'department:download' c.id %}">Syllabus</a>
+                
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>

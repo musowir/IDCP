@@ -93,41 +93,7 @@
             <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdrop">
               <i class="bi bi-plus-circle-fill"></i>&nbsp; Add New Course
             </button>
-            &nbsp;
-            
-            <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdropb">
-              <i class="bi bi-person-workspace"></i></i>&nbsp; Assign a Faculty
-            </button>
-            
-            <!-- assign course-->
-            <div class="modal fade" id="staticBackdropb" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Assign a faculty</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  
-                  <div class="modal-body">
-                    
-                    {% if registered %}
-                    <h1>Thank you for registering!</h1>
-                  {% else %}
-                    <form enctype="multipart/form-data" method="POST">
-                      {% csrf_token %}
-                      {{ tc_form.as_p }}
-                      <input type="submit" name="" value="Assign">
-                    </form>
         
-                    {% endif %}
-
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
             
 
             <!-- Modal add course-->
@@ -263,10 +229,21 @@
                       <!-- <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdropb">
                         <i class="bi bi-person-workspace"></i></i>&nbsp; Assign faculty
                       </button> -->
-                      <div class="badge badge-warning">No faculty assigned</div>
+                      <!-- <div class="badge badge-warning">No faculty assigned</div> -->
+                      <form method="post" action="{% url 'department:assign_fac' %}">
+                        {% csrf_token %}
+                        <select name="faculty" id="faculty" class="btn btn-sm btn-light border border-dark">
+                          <option value="">Select a faculty</option>
+                          {% for f in f_no_list %}
+                          <option value="{{f.id}}">{{f}}</option>
+                          {% endfor %}
+                        </select>
+                        <input type="hidden" name="course" value="{{tc.id}}">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-check-circle-fill"></i></button>
+                    
+                      </form>
                         </div>
 
-                    
                     <div class="col-md-1 my-auto">
                       <button type="button" class="btn btn-sm btn-outline-info"><i class="bi bi-pen-fill"></i></button>
                     </div>

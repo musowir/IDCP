@@ -5,8 +5,3 @@ Departments may contain options to verify and approve their students to the syst
 
 
     idcp.pythonanywhere.com/
-
-## Setup
-
-1. create a folder and open it in `vs code`
-2. install git (https://www.geeksforgeeks.org/introduction-and-installation-of-git/)

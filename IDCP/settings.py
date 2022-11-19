@@ -26,7 +26,7 @@ MEDIA_DIR = os.path.join(BASE_DIR,'media')
 SECRET_KEY = "django-insecure-zdnt4gh=2wsg@j5f3ocatb*6_fxr=(asv$^&0xx_hzy4&x)bm5"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'bootstrap_datepicker_plus',
+    "bootstrap4",
+    "bootstrap_datepicker_plus",
     'department',
     'student',
 ]

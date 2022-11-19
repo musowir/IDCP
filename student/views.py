@@ -13,13 +13,18 @@ from django.contrib.auth.models import User
 
 def index(request):
     student = StudentInfo.objects.get(user=request.user)
+    studey_dep = DepProfileInfo.objects.get(id=student.department.id)
     deps=DepProfileInfo.objects.all()
     try:
         en = Enroll.objects.get(student=student)
     except Enroll.DoesNotExist:
         en = 0
-        
-    cor = CourseInfo.objects.filter()
+    cor=[]    
+    corse = CourseInfo.objects.filter()
+    for c in corse:
+        print(studey_dep.id, c.department.id)
+        if c.department.id != studey_dep.id:
+            cor.append(c)
     r=[]
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)

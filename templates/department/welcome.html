@@ -22,7 +22,7 @@
 <!-- </nav> -->
 
 
-<div class="container">
+<div class="container" >
   
   
     {% if messages %}
@@ -41,9 +41,9 @@
     
     {% endif %}
  
-  <div class="container">
+  
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-8 mt-3">
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action bg-dark text-white"><u>Notifications</u></button>
           {% for n4 in nots4 %}
@@ -95,11 +95,12 @@
         </div>
 
       </div>
-      <div class='col-md-4'>
-
-      <div id='dep' class="card text-center mt-3" style=" display: none;">
+      
+      <div class='col-md-4  mt-3'>
+      
+      <div id='dep' class="card text-center" style=" display: none;">
         <!-- <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button> -->
-        <div class="card-header">Department Login</div>
+        <div class="card-header bg-dark text-white">Department Login</div>
         <div class="card-body">
         <form method="post" action="{% url 'department:user_login' %}">
           {% csrf_token %}
@@ -140,7 +141,7 @@
                     <label for="phone">Mobile Number: <input type="text" name="phone" id="phone"></label>
                     <label for="website">Website: <input type="url" name="website" id="website"></label>
                     <label for="password">Password: <input type="password" name="password" id="password"></label>
-                    <br><br><center> <input type="submit" class="btn-success btn" name="" value="Register"></center>
+                    <br><br><center> <input type="submit" class="btn-success btn btn-sm" name="" value="Register"></center>
                   
                   </form>
       
@@ -156,8 +157,8 @@
         </div>
       </div>
 
-      <div id='stu' class="card text-center mt-3">
-        <div class='card-header'>Student Login</div>
+      <div id='stu' class="card text-center">
+        <div class='card-header  bg-dark text-white'>Student Login</div>
         <!-- <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button> -->
         
         <div class="card-body">
@@ -213,7 +214,7 @@
                     </select>
                   </label>
                     <label for="password">Password: <input type="password" name="password" id="password"></label>
-                    <br><br><center> <input type="submit" class="btn-success btn" name="" value="Register"></center>
+                    <br><br><center> <input type="submit" class="btn-success btn btn-sm" name="" value="Register"></center>
                   </form>
       
                   {% endif %}
@@ -239,10 +240,10 @@
         <div class='card-header'><a href="/admin"> Admin Login </a></div>
        </div>
       <div class="card mt-3">
-        <div class="card-header text-center">
-          <div class="dropdown">
-            <button class="btn btn-light dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Other Logins
+        <div class="text-center">
+          <div class="dropdown md-12">
+            <button class="btn btn-light btn-block dropdown-toggle p-3" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Other Logins
             </button>
             
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -250,7 +251,7 @@
               <button class="dropdown-item" onclick="depshow()">Department</button>
               <button class="dropdown-item" onclick="staffshow()">Staff Coordinator</button>
               <button class="dropdown-item" onclick="facshow()">Faculty</button>
-              <a class="dropdown-item" href="/admin"> Admin </a>
+              <a class="dropdown-item" href="/admin" target="_blank"> Admin </a>
             </div>
           </div>
         </div>
@@ -261,17 +262,17 @@
 
     </div>
   </div>
-</div>
+
 
   <br>
     
-  <div class="bg-light ">
+  <div class="">
       
-    <div class="p-2 mb-2 bg-dark text-white">Couses</div>
-    <div class="container">
+
+    <!-- <div class="container"> -->
       
       <div class="accordion" id="accordionExample">
-        
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white"><u>Couses</u></button>
         {% for rec in r %}
 
         <div class="card">
@@ -288,10 +289,10 @@
             <div class="card-body">
               <div class="row">
                 {% for c in rec.cor %}    
-                <div class="card col-md-5  m-2 p-2 bg-light border rounded">
+                <div class="card col-md-5  m-2 p-3 border rounded">
                     <b>{{c.course_code}} - {{c.course_name}}</b>
                     <small>
-                    Start date: {{c.start_date}} &nbsp; | &nbsp;
+                    Start date: <b>{{c.start_date}}</b> &nbsp; | &nbsp;
                     Available no of seats: <span class="badge badge-warning badge-pill">{{c.seats_left}}/{{c.no_of_seats}}</span> </small>
                 </div>
 
@@ -307,7 +308,6 @@
           {% endfor %}
       </div>
     <br>
-    </div>
   </div>
 
   <!-- <div class="bg-light ">

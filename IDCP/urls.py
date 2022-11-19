@@ -32,4 +32,6 @@ urlpatterns = [
     url(r'^student/',include('student.urls')),
     url(r'^logout/$', dv.user_logout, name='logout'),
     url(r'^logout/$', sv.user_logout, name='s_logout'),
+    url('project/', dv.project, name="project"),
+    url('team/', dv.team, name="team"),
 ]

@@ -22,4 +22,13 @@ class Enroll(models.Model):
   def __str__(self):
       return self.student
 
+class Attendance(models.Model):
+  date = models.DateField()
+  student = models.ForeignKey(StudentInfo, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return str(self.date)
+
+
+
 

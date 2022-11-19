@@ -1,2 +1,3 @@
 edit - course, faculty assign
 course - start date - datepicker
+attendance

@@ -46,9 +46,13 @@
                   You have not enrolled into any courses.
                 </div>
                 {% else %}
-                <div class="m-4">
-                  <b>{{en.course.course_code}} - {{en.course.course_name}}</b><br>
-                    {{en.course.department}}
+                <div class="m-4 row">
+                  <div class="col-md-10"><b>{{en.course.course_code}} - {{en.course.course_name}}</b><br>
+                    {{en.course.department}}</div>
+                  <div class="col-md-2 my-auto">
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'department:download' en.course.id %}"><i class="bi bi-cloud-arrow-down-fill"></i> Syllabus</a>
+                  </div>
+                  
 
                 </div>
                 {% endif %}
@@ -236,5 +240,5 @@
   </div>
 </div>
 {% endif %}
-
+<br>
 {% endblock %}

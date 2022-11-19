@@ -204,6 +204,8 @@ def courseAdd(request):
         if course_form.is_valid():
             
             course = course_form.save(commit=False)
+            course.start_date = request.POST.get('start-date')
+            print(course)
             course.save()
             registered = True
             
@@ -285,3 +287,8 @@ def assign_fac(request):
     ass.save()
     return HttpResponseRedirect(reverse('index'))
 
+def project(request):
+    return render(request, 'department/project.html')
+
+def team(request):
+    return render(request, 'department/team.html')

@@ -2,8 +2,8 @@
 
 {% block body_block %}
 {% if user.is_authenticated %}
-<div class="container bg-light p-3">
-  <div class="row">
+<div class="container">
+  <div class="row mx-1 py-4 bg-light  rounded">
     <div class="col-3">
       
       <div class="list-group" id="list-tab" role="tablist">
@@ -96,6 +96,8 @@
         
             
 
+
+
             <!-- Modal add course-->
             <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -112,11 +114,20 @@
                     {% if registered %}
                     <h1>Thank you for registering!</h1>
                   {% else %}
+
+                  {% load bootstrap4 %}
+                  {% bootstrap_css %}
+                  {% bootstrap_javascript jquery='full' %}
+                  {{ course_form.media }}
+                  
                     <form enctype="multipart/form-data" method="POST">
                       {% csrf_token %}
                       {{ course_form.as_p }}
+                      <label for="start">Start date:</label>
                       <input type="submit" name="" value="Add">
+                  
                     </form>
+
         
                     {% endif %}
 
@@ -147,13 +158,47 @@
                         </div>
                         
                     <div class="col-md-1 my-auto">
-                      <button type="button" class="btn btn-sm btn-outline-info"><i class="bi bi-pen-fill"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline-info"  data-toggle="modal" data-target="#edit{{ forloop.counter }}"><i class="bi bi-pen-fill"></i></button>
                     </div>
                     <div class="col-md-1 my-auto">
                       <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cousedel{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
                     </div>
                   </div>
                 </div>
+
+
+            <!-- Modal edit course-->
+            <div class="modal fade" id="edit{{ forloop.counter }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit Course {{tc.course.course_code}} - {{tc.course.course_name}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  
+                  <div class="modal-body">
+                    
+                    {% if registered %}
+                    <h1>Thank you for registering!</h1>
+                  {% else %}
+                  
+                    <form enctype="multipart/form-data" method="POST">
+                      {% csrf_token %}
+                      {{ course_form.as_p }}
+                      <input type="submit" name="" value="Edit">
+                  
+                    </form>
+
+        
+                    {% endif %}
+
+                  </div>
+                
+                </div>
+              </div>
+            </div>
 
                 <!-- Course Modal -->
                 <div class="modal fade" id="h{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -245,7 +290,7 @@
                         </div>
 
                     <div class="col-md-1 my-auto">
-                      <button type="button" class="btn btn-sm btn-outline-info"><i class="bi bi-pen-fill"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#editfo{{ forloop.counter }}"><i class="bi bi-pen-fill"></i></button>
                     </div>
                     <div class="col-md-1 my-auto">
                       <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cousedel{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
@@ -277,6 +322,39 @@
                     </div>
                   </div>
                   </div>
+
+                            <!-- Modal edit course-->
+            <div class="modal fade" id="editfo{{ forloop.counter }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit Course {{tc.course.course_code}} - {{tc.course.course_name}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  
+                  <div class="modal-body">
+                    
+                    {% if registered %}
+                    <h1>Thank you for registering!</h1>
+                  {% else %}
+                  
+                    <form enctype="multipart/form-data" method="POST">
+                      {% csrf_token %}
+                      {{ course_form.as_p }}
+                      <input type="submit" name="" value="Edit">
+                  
+                    </form>
+
+        
+                    {% endif %}
+
+                  </div>
+                
+                </div>
+              </div>
+            </div>
                 
                 <!--modal delete course -->
                 <div class="modal fade" id="cousedel{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -627,7 +705,9 @@
       </div>
     </div>
   </div>
+
 </div>
+
 
 {% else %}
 
@@ -635,7 +715,10 @@
   <div class="alert alert-warning" role="alert">
     Session Expired! <a href="{% url 'welcome' %}">Login again</a>
   </div>
+  
 </div>
-{% endif %}
 
+
+{% endif %}
+<br>
 {% endblock %}

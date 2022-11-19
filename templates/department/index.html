@@ -4,8 +4,8 @@
 {% if user.is_authenticated %}
 <div class="container">
   <div class="row mx-1 py-4 bg-light  rounded">
-    <div class="col-3">
-      
+    <div class="col-md-3 mb-2">
+
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action list-group-item-secondary active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="bi bi-house-fill"></i>&nbsp; Home</a>
         <!-- <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a> -->
@@ -14,13 +14,13 @@
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-application-list" data-toggle="list" href="#list-application" role="tab" aria-controls="applications"><i class="bi bi-file-earmark-person-fill"></i>&nbsp; Enrollments</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary" id="list-notification-list" data-toggle="list" href="#list-notification" role="tab" aria-controls="notification"><i class="bi bi-bell-fill"></i>&nbsp; Notifications</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary"  data-toggle="modal" data-target="#logoutModalCenter" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"><i class="bi bi-x-square-fill"></i>&nbsp; Logout</a>
-        
+
       </div>
     </div>
-    <div class="col-9">
+    <div class="col-md-9">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-            <div class="container">
+            <div class="">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">{{ depinf.department_name}}</h5>
@@ -37,7 +37,7 @@
                     </button>
 
                     </div>
-        
+
                     <!-- Modal add staff-->
                     <div class="modal fade" id="staticBackdropa" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
@@ -48,9 +48,9 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          
+
                           <div class="modal-body">
-                            
+
                             {% if registered %}
                             <h1>Thank you for registering!</h1>
                           {% else %}
@@ -60,11 +60,11 @@
                               {{ f_profile_form.as_p }}
                               <input type="submit" name="" value="Add">
                             </form>
-                
+
                             {% endif %}
-        
+
                           </div>
-                          
+
                         </div>
                       </div>
                     </div> <br>
@@ -74,16 +74,16 @@
                       {% endfor %}
                       {% for t in teaches %}
                       {% if t.faculty.isCC %}{% else %}<li class="list-group-item">{{t}}&nbsp;&nbsp;<span class="badge badge-warning">Couese: {{t.course}}</span> </li>{% endif %}
-                      
+
                       {% endfor %}
                       {% for t in f_no_list %}
                       {% if t.isCC %}{% else %}<li class="list-group-item">{{t}} </li>{% endif %}
-                      
+
                       {% endfor %}
                     </ul>
-                    
+
                 </div>
-                
+
               </div>
 
         </div>
@@ -93,8 +93,8 @@
             <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdrop">
               <i class="bi bi-plus-circle-fill"></i>&nbsp; Add New Course
             </button>
-        
-            
+
+
 
 
 
@@ -108,9 +108,9 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  
+
                   <div class="modal-body">
-                    
+
                     {% if registered %}
                     <h1>Thank you for registering!</h1>
                   {% else %}
@@ -119,20 +119,20 @@
                   {% bootstrap_css %}
                   {% bootstrap_javascript jquery='full' %}
                   {{ course_form.media }}
-                  
+
                     <form enctype="multipart/form-data" method="POST">
                       {% csrf_token %}
                       {{ course_form.as_p }}
                       <label for="start">Start date:</label>
                       <input type="submit" name="" value="Add">
-                  
+
                     </form>
 
-        
+
                     {% endif %}
 
                   </div>
-                
+
                 </div>
               </div>
             </div>
@@ -141,8 +141,8 @@
             {% for tc in teaches %}
             <div class="list-group-item list-group-item p-3 mt-2">
               <div class="row">
-              
-                  <div class="col-md-6">  
+
+                  <div class="col-md-6">
                   <b>{{tc.course.course_code}} - {{tc.course.course_name}}</b><br>
                     <small>
                     Start date: {{tc.course.start_date}} &nbsp; | &nbsp;
@@ -152,11 +152,11 @@
                     More...</a>
                     </div>
 
-                    <div class="col-md-4 my-auto">  
+                    <div class="col-md-4 my-auto">
                       <i><small>faculty</small></i> <br>
                       {{tc.faculty}}
                         </div>
-                        
+
                     <div class="col-md-1 my-auto">
                       <button type="button" class="btn btn-sm btn-outline-info"  data-toggle="modal" data-target="#edit{{ forloop.counter }}"><i class="bi bi-pen-fill"></i></button>
                     </div>
@@ -177,25 +177,25 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  
+
                   <div class="modal-body">
-                    
+
                     {% if registered %}
                     <h1>Thank you for registering!</h1>
                   {% else %}
-                  
+
                     <form enctype="multipart/form-data" method="POST">
                       {% csrf_token %}
                       {{ course_form.as_p }}
                       <input type="submit" name="" value="Edit">
-                  
+
                     </form>
 
-        
+
                     {% endif %}
 
                   </div>
-                
+
                 </div>
               </div>
             </div>
@@ -215,9 +215,9 @@
                         Start Date : {{tc.course.start_date}} <br>
                         Slot : {{tc.course.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{tc.course.hours_per_week}} <br>
                         No of seats : {{tc.course.no_of_seats}} <br>
-                        
+
                         <a href="{% url 'department:download' tc.course.id %}">Syllabus</a>
-                        
+
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -225,7 +225,7 @@
                     </div>
                   </div>
                   </div>
-                
+
                 <!--modal delete course -->
                 <div class="modal fade" id="cousedel{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -248,19 +248,19 @@
                   </div>
 
                 {% empty %}
-                
+
                 <div>
                   <p class="pl-5">No courses assigned to any faculty.. </p>
                 </div>
-              
+
 
           {% endfor %}
 
           {% for tc in c_no_list %}
             <div class="list-group-item  p-3 mt-2">
               <div class="row">
-              
-                  <div class="col-md-6">  
+
+                  <div class="col-md-6">
                   <b>{{tc.course_code}} - {{tc.course_name}}</b><br>
                     <small>
                     Start date: {{tc.start_date}} &nbsp; | &nbsp;
@@ -285,7 +285,7 @@
                         </select>
                         <input type="hidden" name="course" value="{{tc.id}}">
                         <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-check-circle-fill"></i></button>
-                    
+
                       </form>
                         </div>
 
@@ -313,7 +313,7 @@
                         Start Date : {{tc.start_date}} <br>
                         Slot : {{tc.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{tc.hours_per_week}} <br>
                         No of seats : {{tc.no_of_seats}} <br>
-                        
+
                         <a href="{% url 'department:download' tc.id %}">Syllabus</a>
                       </div>
                       <div class="modal-footer">
@@ -333,29 +333,29 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  
+
                   <div class="modal-body">
-                    
+
                     {% if registered %}
                     <h1>Thank you for registering!</h1>
                   {% else %}
-                  
+
                     <form enctype="multipart/form-data" method="POST">
                       {% csrf_token %}
                       {{ course_form.as_p }}
                       <input type="submit" name="" value="Edit">
-                  
+
                     </form>
 
-        
+
                     {% endif %}
 
                   </div>
-                
+
                 </div>
               </div>
             </div>
-                
+
                 <!--modal delete course -->
                 <div class="modal fade" id="cousedel{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -378,9 +378,9 @@
                   </div>
 
                 {% empty %}
-                
-          
-              
+
+
+
 
           {% endfor %}
 
@@ -390,15 +390,15 @@
         </div>
 
         <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">
-  
-    
+
+
             <a class="btn btn-sm btn-outline-dark m-2" href="{% url 'department:print_preview'%} target="_blank"" target="_blank"><i class="bi bi-download"></i> Print Enrollment Info</a>
             <a class="btn btn-sm btn-outline-info m-2" href="{% url 'department:approve_all' %}">Approve All</a>
-          
+
           <div class="alert bg-dark text-white" role="alert">
             Registered Students
           </div>
-          
+
           {% for s in student %}
           {% if not s.approved %}
           <div class="list-group-item list-group-item-action">
@@ -408,7 +408,7 @@
             <div class="col-sm-1">
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#stu{{ forloop.counter }}">
-                 Details 
+                 Details
               </button>
               </div>
 
@@ -421,7 +421,7 @@
             </div>
           </div>
 
-          
+
         </div>
 
         <div class="modal fade" id="reject{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -438,13 +438,13 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                
+
                 <a class="btn btn-danger btn-sm" href="{% url 'department:reject' s.user.id %}"> Confirm</a>
               </div>
             </div>
           </div>
           </div>
-        
+
         <div class="modal fade" id="appro{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -459,7 +459,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                
+
                 <a class="btn btn-info btn-sm" href="{% url 'department:approve' s.user.id %}"> Confirm</a>
               </div>
             </div>
@@ -492,7 +492,7 @@
           <div class="alert bg-dark text-white" role="alert">
             Approved Students
           </div>
-          
+
           {% for s in student %}
           {% if s.approved %}
           <div class="list-group-item list-group-item-action">
@@ -505,9 +505,9 @@
               </div>
           </div>
 
-          
+
         </div>
-        
+
         <div class="modal fade" id="stu{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -532,9 +532,9 @@
           {% endfor %}
 </div>
         <div class="tab-pane fade" id="list-application" role="tabpanel" aria-labelledby="list-application-list">
-          
+
           <a class="btn btn-sm btn-outline-dark m-2" href="{% url 'department:student_preview'%}" target="_blank"><i class="bi bi-download"></i> Print Enrollment Data</a>
-          
+
           <div class="alert bg-dark text-white" role="alert">Enrolled Students</div>
             {% for end in enrolled %}
             <div class="list-group-item list-group-item-action">
@@ -555,8 +555,8 @@
                   <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#removest{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
                   </div>
             </div>
-  
-            
+
+
           </div>
 
             <div class="modal fade" id="studetl{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -595,23 +595,23 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                       <a class="btn btn-sm btn-danger" href="{% url 'department:unenroll' end.id %}">Unenroll</a>
-                      
+
                     </div>
                   </div>
                 </div>
                 </div>
-            
+
             {% empty %}
               No students enrolled yet.
             {% endfor %}
-          
+
         </div>
         <div class="tab-pane fade" id="list-notification" role="tabpanel" aria-labelledby="list-notification-list">
-          
+
           <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdropnot">
             <i class="bi bi-plus-circle-fill"></i>&nbsp; Add new notification
           </button><br><br>
-          
+
 
           <!-- Modal add course-->
           <div class="modal fade" id="staticBackdropnot" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -623,7 +623,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                
+
                 <div class="modal-body">
                   <form enctype="multipart/form-data" method="POST">
                     {% csrf_token %}
@@ -633,7 +633,7 @@
                   </form>
 
                 </div>
-              
+
               </div>
             </div>
           </div>
@@ -646,12 +646,12 @@
             </div>
             <div class="col-sm-3">
               <small>{{ n4.publish_date }}</small></div>
-          
+
               <div class="col-sm-1">
                 <button type="button" class="btn btn-sm btn-outline-danger"  data-toggle="modal" data-target="#del_not{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
             </div>
 
-            
+
           </div>
         </div>
 
@@ -715,7 +715,7 @@
   <div class="alert alert-warning" role="alert">
     Session Expired! <a href="{% url 'welcome' %}">Login again</a>
   </div>
-  
+
 </div>
 
 

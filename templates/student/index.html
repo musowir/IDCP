@@ -5,8 +5,8 @@
 {% if user.is_authenticated %}
 <div class="container bg-light p-3">
   <div class="row">
-    <div class="col-3">
-      
+    <div class="col-md-3 mb-3">
+
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action list-group-item-dark active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="bi bi-house-fill"></i>&nbsp; Home</a>
         <!-- <a class="list-group-item list-group-item-action list-group-item-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a> -->
@@ -15,13 +15,14 @@
         <!-- <a class="list-group-item list-group-item-action list-group-item-dark" id="list-application-list" data-toggle="list" href="#list-application" role="tab" aria-controls="applications"><i class="bi bi-file-earmark-person-fill"></i>&nbsp; Applications</a> -->
         <a class="list-group-item list-group-item-action list-group-item-dark" id="list-notification-list" data-toggle="list" href="#list-notification" role="tab" aria-controls="notification"><i class="bi bi-bell-fill"></i>&nbsp; Notifications</a>
         <a class="list-group-item list-group-item-action list-group-item-dark"  data-toggle="modal" data-target="#logoutModalCenter" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"><i class="bi bi-x-square-fill"></i>&nbsp; Logout</a>
-        
+
       </div>
     </div>
-    <div class="col-9">
+
+    <div class="col-md-9">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-            <div class="container">
+            <div class="">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">{{ student.user.first_name}} {{ student.user.last_name}} ({{student.exam_reg_no}})</h5>
@@ -52,7 +53,7 @@
                   <div class="col-md-2 my-auto">
                     <a class="btn btn-sm btn-outline-secondary" href="{% url 'department:download' en.course.id %}"><i class="bi bi-cloud-arrow-down-fill"></i> Syllabus</a>
                   </div>
-                  
+
 
                 </div>
                 {% endif %}
@@ -67,25 +68,25 @@
             <b>Courses Available</b>
           </div>
           <div class="bg-white  overflow-auto" style="height: 500px;">
-            
-              {% for c in cor %}  
+
+              {% for c in cor %}
               <div class="list-group-item list-group-item-action">
                 <div class="row">
-                    
+
                   <div class="col-md-8">
                       <b>{{c.course_code}} - {{c.course_name}}</b><br>
                       <small>
                       <i>{{c.department}}</i><br>
                       Start date: <b>{{c.start_date}}</b> &nbsp; | &nbsp;
                       No of seats left: </small><b><span class="badge badge-pill badge-info">{{c.seats_left}}/{{c.no_of_seats}}</span></b>
-                
+
                   </div>
                   <div class="col-md-2 my-auto">
                     <a href="" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#ht{{ forloop.counter }}">More info</a>
                 </div>
                 <div class="col-md-2 my-auto mx-auto">
                  {% if student.approved and en == 0 and c.seats_left > 0  %}
-                
+
                   <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#enrolled{{ forloop.counter }}"><i class="bi bi-person-plus-fill"></i> Enroll</button>
                   {% endif %}
                   {% if c.seats_left == 0 %}
@@ -94,12 +95,12 @@
                   {% if en != 0 and en.course == c %}
                   <span class="badge badge-pill badge-warning">Enrolled</span>
                   {% endif %}
-                  
-                  
-                  
+
+
+
                 </div>
-                   
-                 
+
+
             </div>
           </div>
 
@@ -117,9 +118,9 @@
                   Start Date : {{c.start_date}} <br>
                   Slot : {{c.slot}} &nbsp;&nbsp;&nbsp; Hours per week : {{c.hours_per_week}} <br>
                   No of seats : {{c.no_of_seats}} <br>
-                 
+
                   <a href="{% url 'department:download' c.id %}">Syllabus</a>
-                
+
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
@@ -139,7 +140,7 @@
         </button>
       </div>
       <div class="modal-body">
-        
+
         You will have to contact your department to cancel enrollment. <br>
         Confirm enrollment to course {{c.name}}?
       </div>
@@ -155,10 +156,10 @@
                   {% empty %}
                   <p class="pl-5">No courses available.. </p>
                   {% endfor %}
-              
-              
+
+
             </div>
-          
+
         </div>
         <div class="tab-pane fade" id="list-student" role="tabpanel" aria-labelledby="list-student-list">
 
@@ -188,7 +189,7 @@
           </div>
           </div>
           {% empty %}
-          
+
           <div class="list-group-item list-group-item-action">
             <div class="row">
               No notification from your course enrolled department.

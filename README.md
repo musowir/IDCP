@@ -30,7 +30,7 @@ Departments may contain options to verify and approve their students to the syst
 
 
 7. `git clone https://github.com/musowir/IDCP.git`
-   project downloaded to local machine
+   project downloaded to local machine <br>
 ![](https://drive.google.com/file/d/1UDvlvVzCYpm2dCFWMSVrgwTm1gTZHRBU/view?usp=share_link)
 https://drive.google.com/file/d/1UDvlvVzCYpm2dCFWMSVrgwTm1gTZHRBU/view?usp=share_link
 
@@ -38,7 +38,7 @@ https://drive.google.com/file/d/1UDvlvVzCYpm2dCFWMSVrgwTm1gTZHRBU/view?usp=share
 
 8. `cd IDCP`
 
-9. `python manage.py runserver`
+9. `python manage.py runserver` <br>
 ![](https://drive.google.com/file/d/1XN60xaA0qtlIJYnnBzNLTK_g5Nw4WRmJ/view?usp=share_link)
 https://drive.google.com/file/d/1XN60xaA0qtlIJYnnBzNLTK_g5Nw4WRmJ/view?usp=share_link
 

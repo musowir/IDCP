@@ -3,7 +3,7 @@
 {% block body_block %}
 {% if user.is_authenticated %}
 <div class="container">
-  <div class="row mx-1 py-4 bg-light  rounded">
+  <div class="row py-4 bg-light rounded">
     <div class="col-md-3 mb-2">
 
       <div class="list-group" id="list-tab" role="tablist">
@@ -89,7 +89,8 @@
         </div>
         <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
 
-          <div class="container">
+          <div class="">
+              <br>
             <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdrop">
               <i class="bi bi-plus-circle-fill"></i>&nbsp; Add New Course
             </button>
@@ -145,22 +146,24 @@
                   <div class="col-md-6">
                   <b>{{tc.course.course_code}} - {{tc.course.course_name}}</b><br>
                     <small>
-                    Start date: {{tc.course.start_date}} &nbsp; | &nbsp;
-                    No of seats: {{tc.course.no_of_seats}} </small>
+                    Start date: {{tc.course.start_date}}
+                    <br>No of seats: {{tc.course.no_of_seats}} </small>
                     <!-- Button trigger modal --> <br>
-                    <a href="" class="card-link" data-toggle="modal" data-target="#h{{ forloop.counter }}">
-                    More...</a>
                     </div>
 
-                    <div class="col-md-4 my-auto">
+                    <div class="col-md-3 my-auto">
                       <i><small>faculty</small></i> <br>
                       {{tc.faculty}}
                         </div>
 
-                    <div class="col-md-1 my-auto">
+                    <div class="col-md-3 my-auto">
+
+
+                    <a  href="" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#h{{ forloop.counter }}">
+                    Detais</a>
                       <button type="button" class="btn btn-sm btn-outline-info"  data-toggle="modal" data-target="#edit{{ forloop.counter }}"><i class="bi bi-pen-fill"></i></button>
-                    </div>
-                    <div class="col-md-1 my-auto">
+                    <!--</div>
+                    <div class="col-md-1 my-auto">-->
                       <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cousedel{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
                     </div>
                   </div>
@@ -266,11 +269,10 @@
                     Start date: {{tc.start_date}} &nbsp; | &nbsp;
                     No of seats: {{tc.no_of_seats}} </small>
                     <!-- Button trigger modal --> <br>
-                    <a href="" class="card-link" data-toggle="modal" data-target="#hts{{ forloop.counter }}">
-                    More...</a>
+
                     </div>
 
-                    <div class="col-md-4 my-auto">
+                    <div class="col-md-3 my-auto">
                       <!-- <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdropb">
                         <i class="bi bi-person-workspace"></i></i>&nbsp; Assign faculty
                       </button> -->
@@ -289,10 +291,12 @@
                       </form>
                         </div>
 
-                    <div class="col-md-1 my-auto">
+                    <div class="col-md-3 my-auto">
+                        <a href="" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#hts{{ forloop.counter }}">
+                    Details</a>
                       <button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#editfo{{ forloop.counter }}"><i class="bi bi-pen-fill"></i></button>
-                    </div>
-                    <div class="col-md-1 my-auto">
+                   <!-- </div>
+                    <div class="col-md-1 my-auto">-->
                       <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#cousedel{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
                     </div>
                   </div>
@@ -403,20 +407,20 @@
           {% if not s.approved %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-8">{{ s.exam_reg_no }} - {{ s.user.first_name }} {{ s.user.last_name }}
+            <div class="col-sm-7">{{ s.exam_reg_no }} - {{ s.user.first_name }} {{ s.user.last_name }}
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1"><hr></div>
+            <div class="col-sm-4 my-auto">
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#stu{{ forloop.counter }}">
                  Details
               </button>
-              </div>
+              <!--</div>-->
 
-              <div class="col-sm-1">
+              <!--<div class="col-sm-2">-->
                 <button class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#appro{{ forloop.counter }}">Approve</button>
-              </div>
-              &nbsp;&nbsp;
-              <div class="col-sm-1">
+              <!--</div>-->
+              <!--<div class="col-sm-1">-->
                 <button class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#reject{{ forloop.counter }}">Reject</button>
             </div>
           </div>
@@ -546,11 +550,11 @@
                 <small>Enrolled Course:</small><br>
                 {{ end.course }}
                 </div>
-              <div class="col-sm-1 my-auto">
+              <div class="col-sm-2 my-auto">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#studetl{{ forloop.counter }}">Details</button>
-                </div>
-                <div class="col-sm-1 my-auto">
+                <!--</div>
+                <div class="col-sm-1 my-auto">-->
                   <!-- Button trigger modal -->
                   <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#removest{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
                   </div>
@@ -607,7 +611,7 @@
 
         </div>
         <div class="tab-pane fade" id="list-notification" role="tabpanel" aria-labelledby="list-notification-list">
-
+            <br>
           <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#staticBackdropnot">
             <i class="bi bi-plus-circle-fill"></i>&nbsp; Add new notification
           </button><br><br>

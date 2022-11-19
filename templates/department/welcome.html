@@ -3,30 +3,14 @@
 {% block body_block %}
 
 
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-white m-3"> -->
-  <!-- <a class="navbar-brand" href="{% url 'welcome' %}">IDCP</a> -->
-  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon navbar-light"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li><a class="navbar-link  text-dark" href="#">Student Login</a></li>&nbsp;&nbsp; 
-        {# Some logic on what to display for last item#}
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-          <li><a class="navbar-link  text-dark" href="{% url 'department:user_login' %}">Department Login</a></li>
-        {% endif %}
-    </ul>
-  </div> -->
-<!-- </nav> -->
 
 
-<div class="container" >
-  
-  
+
+<div class="" >
+
+
     {% if messages %}
-    
+
       {% for message in messages %}
       {% if message.tags == 'success' %}
       <div class="alert alert-success">
@@ -38,10 +22,10 @@
       </div>
       {% endif %}
       {% endfor %}
-    
+
     {% endif %}
- 
-  
+
+
     <div class="row">
       <div class="col-md-8 mt-3">
         <div class="list-group">
@@ -76,12 +60,12 @@
                 <div class="modal-body">
                   {% for n in nots %}
                     <div class="list-group-item list-group-item-action">
-                      
+
                       {{ n.notification }} <br>
                         <small>{{n.department}}</small> |
-                     
+
                         <small>{{ n.publish_date }}</small>
-                    
+
                     </div>
                     {% endfor %}
                 </div>
@@ -95,9 +79,9 @@
         </div>
 
       </div>
-      
+
       <div class='col-md-4  mt-3'>
-      
+
       <div id='dep' class="card text-center" style=" display: none;">
         <!-- <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Student Login</button> -->
         <div class="card-header bg-dark text-white">Department Login</div>
@@ -123,15 +107,15 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                
+
                 <div class="modal-body">
-                  
+
                   {% if registered %}
                   <h1>Thank you for registering!</h1>
                 {% else %}
                   <form method="post" action="{% url 'department:register' %}" class="text-left">
                     {% csrf_token %}
-                    
+
                     <label for="username">Username: <input type="text" name="username" id="username"></label>
                     <label for="department_name">Department Name: <input type="text" name="department_name" id="department_name"></label>
                     <label for="bio">About:
@@ -142,13 +126,13 @@
                     <label for="website">Website: <input type="url" name="website" id="website"></label>
                     <label for="password">Password: <input type="password" name="password" id="password"></label>
                     <br><br><center> <input type="submit" class="btn-success btn btn-sm" name="" value="Register"></center>
-                  
+
                   </form>
-      
+
                   {% endif %}
 
                 </div>
-              
+
               </div>
             </div>
 
@@ -160,7 +144,7 @@
       <div id='stu' class="card text-center">
         <div class='card-header  bg-dark text-white'>Student Login</div>
         <!-- <button type="button" class="btn btn-primary btn-sm btn-light" onclick="viewhide()">Switch to Department Login</button> -->
-        
+
         <div class="card-body">
         <form method="post" action="{% url 'student:student_login' %}">
           {% csrf_token %}
@@ -183,9 +167,9 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                
+
                 <div class="modal-body text-left">
-                  
+
                   {% if registered %}
                   <h1>Thank you for registering!</h1>
                 {% else %}
@@ -216,17 +200,17 @@
                     <label for="password">Password: <input type="password" name="password" id="password"></label>
                     <br><br><center> <input type="submit" class="btn-success btn btn-sm" name="" value="Register"></center>
                   </form>
-      
+
                   {% endif %}
 
                 </div>
-              
+
               </div>
             </div>
           </div>
 
           <!-- <a href="">Forgot password!</a> -->
-        
+
         </div>
       </div>
 
@@ -245,7 +229,7 @@
             <button class="btn btn-light btn-block dropdown-toggle p-3" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              Other Logins
             </button>
-            
+
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <button class="dropdown-item" onclick="stushow()">Student</button>
               <button class="dropdown-item" onclick="depshow()">Department</button>
@@ -265,12 +249,12 @@
 
 
   <br>
-    
+
   <div class="">
-      
+
 
     <!-- <div class="container"> -->
-      
+
       <div class="accordion" id="accordionExample">
         <button type="button" class="list-group-item list-group-item-action bg-dark text-white"><u>Couses</u></button>
         {% for rec in r %}
@@ -284,24 +268,34 @@
               </button>
             </h2>
           </div>
-      
+
           <div id="c{{ forloop.counter }}" class="collapse" aria-labelledby="#h{{ forloop.counter }}" data-parent="#accordionExample">
             <div class="card-body">
               <div class="row">
-                {% for c in rec.cor %}    
+                {% for c in rec.cor %}
                 <div class="card col-md-5  m-2 p-3 border rounded">
                     <b>{{c.course_code}} - {{c.course_name}}</b>
-                    <small>
-                    Start date: <b>{{c.start_date}}</b> &nbsp; | &nbsp;
-                    Available no of seats: <span class="badge badge-warning badge-pill">{{c.seats_left}}/{{c.no_of_seats}}</span> </small>
+                    <div class="row">
+                    <div class="col-md-9">
+
+                        <small>
+                        Start date: <b>{{c.start_date}}</b>
+                        <br>Available no of seats: <span class="badge badge-warning badge-pill">{{c.seats_left}}/{{c.no_of_seats}}</span> </small>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="text-dark" href="{% url 'department:download' c.id %}"><i class="bi bi-cloud-arrow-down-fill"></i> Syllabus</a>
+                    </div>
+                    </div>
                 </div>
 
                 {% empty %}
-                <p class="pl-5">No courses available.. </p>
+                <div>
+                        <p>&nbsp; No courses available...!</p>
+                    </div>
                 {% endfor %}
               </div>
-  
-            </div>  
+
+            </div>
           </div>
 
         </div>
@@ -310,33 +304,8 @@
     <br>
   </div>
 
-  <!-- <div class="bg-light ">
-    <div class="p-3 mb-2 bg-dark text-white">Couses</div>
-    <div class="container">
-    {% for rec in r %} <br>
-      <h6>{{rec.dep}}</h6>
-          <div class="row container">
-          {% for c in rec.cor %}    
-          <div class="card col-md-5 m-1 p-2">
-            <!-- <div class="card-title"> 
-              <b>{{c.course_code}} - {{c.course_name}}</b>
-            <!-- </div> -->
-            <!-- <div class="card-subtitle mb-2 text-muted">{{c.department}} </div> -->
-            <!-- <p class="card-text"> 
-              <small>
-              Start date: {{c.start_date}} &nbsp; | &nbsp;
-              No of seats: {{c.no_of_seats}} </small>
-              <a href="#" class="card-link">Details</a>
-            <!-- </p>
-          </div>
-          {% empty %}
-          <p>No courses available.. </p>
-          {% endfor %}
-        </div>
-        {% endfor %}
-        </div>
-      </div> -->
-    
+
+
     </div>
 </div>
 {% endblock %}

@@ -5,3 +5,43 @@ Departments may contain options to verify and approve their students to the syst
 
 
     idcp.pythonanywhere.com/
+
+## Setup
+
+1. Download and install `vs code` (https://code.visualstudio.com/download)
+
+2. install `git` (https://www.geeksforgeeks.org/introduction-and-installation-of-git/)
+
+
+3. create a folder and open `vs code` in that folder
+
+4. open terminal in **vs code**
+
+5. To check whether git is correctly installed  
+
+   `git –version`
+
+
+6. Initial setup git
+
+   `git config –global user.name “YourUserNameOnGithub”`
+
+   `git config –global user.email “YourEmail” `
+
+
+7. `git clone https://github.com/musowir/IDCP.git`
+   project downloaded to local machine
+![](https://drive.google.com/file/d/1UDvlvVzCYpm2dCFWMSVrgwTm1gTZHRBU/view?usp=share_link)
+https://drive.google.com/file/d/1UDvlvVzCYpm2dCFWMSVrgwTm1gTZHRBU/view?usp=share_link
+
+8. `IDCP\IDCP\Scripts\activate`
+
+8. `cd IDCP`
+
+9. `python manage.py runserver`
+![](https://drive.google.com/file/d/1XN60xaA0qtlIJYnnBzNLTK_g5Nw4WRmJ/view?usp=share_link)
+https://drive.google.com/file/d/1XN60xaA0qtlIJYnnBzNLTK_g5Nw4WRmJ/view?usp=share_link
+
+
+
+All done! server running!

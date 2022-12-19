@@ -407,7 +407,7 @@
           {% if not s.approved %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-7">{{ s.exam_reg_no }} - {{ s.user.first_name }} {{ s.user.last_name }}
+            <div class="col-sm-7">{{ s.user }} - {{ s.user.first_name }} {{ s.user.last_name }}
             </div>
             <div class="col-sm-1"><hr></div>
             <div class="col-sm-4 my-auto">
@@ -501,7 +501,7 @@
           {% if s.approved %}
           <div class="list-group-item list-group-item-action">
             <div class="row">
-            <div class="col-sm-10">{{ s.exam_reg_no }} - {{ s.user.first_name }} {{ s.user.last_name }}
+            <div class="col-sm-10">{{ s.user }} - {{ s.user.first_name }} {{ s.user.last_name }}
             </div>
             <div class="col-sm-1">
               <!-- Button trigger modal -->
@@ -543,20 +543,23 @@
             {% for end in enrolled %}
             <div class="list-group-item list-group-item-action">
               <div class="row">
-              <div class="col-sm-6">{{ end.student }} - {{ end.student.user.first_name }} {{ end.student.user.last_name }} <br>
+              <div class="col-sm-5">{{ end.student }} - {{ end.student.user.first_name }} {{ end.student.user.last_name }} <br>
                 <small><i>{{ end.student.department }}</i></small>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <small>Enrolled Course:</small><br>
                 {{ end.course }}
                 </div>
-              <div class="col-sm-2 my-auto">
+              <div class="col-sm-4 my-auto mr-0">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#studetl{{ forloop.counter }}">Details</button>
-                <!--</div>
-                <div class="col-sm-1 my-auto">-->
-                  <!-- Button trigger modal -->
+
+                  {% if end.request_removal == True %}
+                  <span class="badge badge-pill badge-warning">Requested<br>Unenrollment</span>
                   <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#removest{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
+                  {% else %}
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#removest{{ forloop.counter }}"><i class="bi bi-trash3-fill"></i></button>
+                  {% endif %}
                   </div>
             </div>
 

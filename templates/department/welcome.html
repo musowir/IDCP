@@ -4,8 +4,6 @@
 
 
 
-
-
 <div class="" >
 
 
@@ -89,10 +87,32 @@
         <form method="post" action="{% url 'department:user_login' %}">
           {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
-          <label for="username">Username:</label>
-          <input type="text" name="username" placeholder="Department Username"><br>
-          <label for="password">Password:</label>
-          <input type="password" name="password" placeholder="Password"><br><br>
+          <!--<label for="username">Username:</label>-->
+            &nbsp;&nbsp;&nbsp;<input type="text" name="username" placeholder="Department Username"><br><br>
+          <!--<label for="password">Password:</label>-->
+          <input type="password" name="password" placeholder="Password" id="id_password">
+
+          <i class="bi bi-eye-fill text-dark" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+          <br><br>
+
+
+            <script>
+              const togglePassword1 = document.querySelector('#togglePassword');
+              const password1 = document.querySelector('#id_password');
+
+              togglePassword1.addEventListener('click', function (e) {
+
+                const classed = togglePassword1.getAttribute('class') === 'bi bi-eye-slash-fill text-dark' ? 'bi bi-eye-fill text-dark' : 'bi bi-eye-slash-fill text-dark';
+                togglePassword1.setAttribute('class', classed);
+                // toggle the type attribute
+                const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+                password1.setAttribute('type', type);
+            });
+            </script>
+
+
+
+
           <input type="submit" name="" value="Login" class="btn btn-dark">&nbsp;
           New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdropsedep">Register</a> <br><br>
         </form>
@@ -149,10 +169,30 @@
         <form method="post" action="{% url 'student:student_login' %}">
           {% csrf_token %}
           {# A more "HTML" way of creating the login form#}
-          <label for="username">Username:</label>
-          <input type="text" name="username" placeholder="Student Username"><br>
-          <label for="password">Password:</label>
-          <input type="password" name="password" placeholder="Password"><br><br>
+          <!--<label for="username">Username:</label>-->
+          &nbsp;&nbsp;&nbsp;<input type="text" name="username" placeholder="Exam Reg. no."><br><br>
+          <!--<label for="password">Password:</label>-->
+          <input type="password" name="password" placeholder="Password" id="id_password11">
+
+          <i class="bi bi-eye-fill text-dark" id="togglePassword82" style="margin-left: -30px; cursor: pointer;"></i>
+          <br><br>
+
+
+            <script>
+              const togglePassword = document.querySelector('#togglePassword82');
+              const password = document.querySelector('#id_password11');
+
+              togglePassword.addEventListener('click', function (e) {
+
+                const classed = togglePassword.getAttribute('class') === 'bi bi-eye-slash-fill text-dark' ? 'bi bi-eye-fill text-dark' : 'bi bi-eye-slash-fill text-dark';
+                togglePassword.setAttribute('class', classed);
+                // toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+            });
+            </script>
+
+
           <input type="submit" name="" value="Login" class="btn btn-dark">&nbsp;
           New user?&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#staticBackdrop2">Register</a> <br><br>
         </form>
@@ -175,8 +215,8 @@
                 {% else %}
                   <form method="post" action="{% url 'student:register' %}">
                     {% csrf_token %}
-                    <label for="username">Username: <input type="text" name="username" id="username"></label>
-                    <label for="exam_reg_no">Exam Register No: <input type="number" name="exam_reg_no" id="exam_reg_no"></label>
+                    <label for="username">Exam Register number: <input type="text" name="username" id="username"></label>
+                   <!-- <label for="exam_reg_no">Exam Register No: <input type="number" name="exam_reg_no" id="exam_reg_no"></label>-->
                     <label for="first_name">First Name: <input type="text" name="first_name" id="first_name"></label>
                     <label for="last_name">Last Name: <input type="text" name="last_name" id="last_name"></label>
                     <label for="email">Email: <input type="email" name="email" id="email"></label>

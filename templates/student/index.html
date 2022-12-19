@@ -6,7 +6,7 @@
 <div class="container bg-light p-3 rounded">
   <div class="row">
     <div class="col-md-3 mb-3">
-      
+
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action list-group-item-dark active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="bi bi-house-fill"></i>&nbsp; Home</a>
         <!-- <a class="list-group-item list-group-item-action list-group-item-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="bi bi-pen-fill"></i>&nbsp; Edit Profile</a> -->
@@ -18,14 +18,14 @@
 
       </div>
     </div>
-    <div class="col-9">
+    <div class="col">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
             <div class="">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">{{ student.user.first_name}} {{ student.user.last_name}} ({{student.exam_reg_no}})</h5>
-                  <p class="card-subtitle mb-2 text-muted">@{{student.user}} &emsp13;
+                  <h5 class="card-title">{{ student.user.first_name}} {{ student.user.last_name}} ({{student.user}})</h5>
+                  <p class="card-subtitle mb-2 text-muted"> &emsp13;
                     {% if student.approved %}
                     <span class="badge badge-pill badge-primary"><i class="bi bi-patch-check-fill"></i> verified</span>
                     {% else %}
@@ -72,7 +72,7 @@
               <div class="list-group-item list-group-item-action">
                 <div class="row">
 
-                  <div class="col-md-8">
+                  <div class="col-md-6">
                       <b>{{c.course_code}} - {{c.course_name}}</b><br>
                       <small>
                       <i>{{c.department}}</i><br>
@@ -83,16 +83,22 @@
                   <div class="col-md-2 my-auto">
                     <a href="" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#ht{{ forloop.counter }}">More info</a>
                 </div>
-                <div class="col-md-2 my-auto mx-auto">
+                <div class="col-md-4 my-auto mx-auto">
                  {% if student.approved and en == 0 and c.seats_left > 0  %}
 
                   <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#enrolled{{ forloop.counter }}"><i class="bi bi-person-plus-fill"></i> Enroll</button>
+                  {% else %}
                   {% endif %}
                   {% if c.seats_left == 0 %}
                   <span class="badge badge-pill badge-danger">Housefull!</span>
                   {% endif %}
                   {% if en != 0 and en.course == c %}
                   <span class="badge badge-pill badge-warning">Enrolled</span>
+                  {% if en.request_removal == False %}
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#unenrolled{{ forloop.counter }}"><i class="bi bi-person-plus-fill"></i>Request Unenroll</button>
+                  {% else %}
+                  <span class="badge badge-pill badge-danger">Unenroll request sent!</span>
+                  {% endif %}
                   {% endif %}
 
 
@@ -129,29 +135,56 @@
             </div>
 
             <!-- modal -->
-<div class="modal fade" id="enrolled{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="logoutModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="logoutModalLongTitle">Confirm Enrollment</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+                <div class="modal fade" id="enrolled{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="logoutModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLongTitle">Confirm Enrollment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
 
-        You will have to contact your department to cancel enrollment. <br>
-        Confirm enrollment to course {{c.name}}?
-      </div>
-      <div class="modal-footer">
-        {% if user.is_authenticated %}
-        <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
-        <a type="button" class="btn btn-sm btn-danger" href="{% url 'student:enroll_student' c.id %}">Confirm</a>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-</div>
+                        You will have to contact your department to cancel enrollment. <br>
+                        Confirm enrollment to course {{c.name}}?
+                      </div>
+                      <div class="modal-footer">
+                        {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
+                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'student:enroll_student' c.id %}">Confirm</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                            <!-- modal -->
+                    <div class="modal fade" id="unenrolled{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="logoutModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="logoutModalLongTitle">Confirm Unenrollment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+
+                            Do you want to request the department to unenrol you from the course? This is needed to be confirmed from their part also.<br>
+                            Confirm unenrollment to course {{c.name}}?
+                          </div>
+                          <div class="modal-footer">
+                            {% if user.is_authenticated %}
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Go back</button>
+                            {% if en != 0 %}<a type="button" class="btn btn-sm btn-danger" href="{% url 'student:request_removal' en.id %}">Confirm</a>{% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   {% empty %}
                   <p class="pl-5">No courses available.. </p>
                   {% endfor %}

@@ -8,4 +8,5 @@ urlpatterns=[
     url('student_login/',views.student_login,name='student_login'),
     url('stu/', views.index, name='stu'),
     url(r'^enroll/(?P<course_id>\d+)$', views.enrollStudent, name='enroll_student'),
+    url(r'^request_removal/(?P<enrol_id>\d+)$', views.requestRemoval, name='request_removal'),
 ]

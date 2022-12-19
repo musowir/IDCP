@@ -19,7 +19,7 @@ def index(request):
         en = Enroll.objects.get(student=student)
     except Enroll.DoesNotExist:
         en = 0
-    cor=[]    
+    cor=[]
     corse = CourseInfo.objects.filter()
     for c in corse:
         print(studey_dep.id, c.department.id)
@@ -29,25 +29,31 @@ def index(request):
     for d in deps:
         c = CourseInfo.objects.filter(department=d.id)
         r.append({'dep':d, 'cor':c})
-    
+
     if(en != 0):
         notsin = Notification.objects.filter(department= en.course.department)
     else:
         notsin = {}
-    
-    
+
+
     return render(request,'student/index.html', context={'r':r, 'student': student, 'cor':cor, 'en':en, 'notsin':notsin})
 
 def enrollStudent(request, course_id):
     stu = StudentInfo.objects.get(user=request.user)
-    cor = CourseInfo.objects.get(id=course_id)    
+    cor = CourseInfo.objects.get(id=course_id)
     en = Enroll(student = stu, course = cor)
     en.save()
     cor.seats_left-=1
     cor.save()
     return HttpResponseRedirect(reverse('s_index'))
 
-    
+def requestRemoval(request, enrol_id):
+    if enrol_id:
+        en = Enroll.objects.get(id=enrol_id)
+        en.request_removal = True
+        en.save()
+    return HttpResponseRedirect(reverse('s_index'))
+
 @login_required
 def special(request):
     return HttpResponse("You are logged in !")
@@ -71,18 +77,17 @@ def register(request):
             st.save()
 
             phone = request.POST.get('phone')
-            exam_reg_no = request.POST.get('exam_reg_no')
             dep_id = request.POST.get('department')
             department = DepProfileInfo.objects.get(id=dep_id)
             course = request.POST.get('course')
-            st_inf = StudentInfo(exam_reg_no=exam_reg_no, phone=phone, department=department, course=course, user_id=st.id, approved=0)
+            st_inf = StudentInfo(phone=phone, department=department, course=course, user_id=st.id, approved=0)
             st_inf.save()
             messages.success(request, "Regitration Success!")
             return HttpResponseRedirect(reverse('welcome'))
-        else: 
+        else:
             messages.warning(request, "Username or email already exist!")
             return HttpResponseRedirect(reverse('welcome'))
-   
+
 
 def student_login(request):
     if request.method == 'POST':
